@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import router from "./routes/userRoutes.js";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 dotenv.config({
    path: "./config/config.env",
@@ -15,6 +16,7 @@ const app = express();
 // middlewares
 app.use(cors());
 app.use(morgan("dev"));
+app.use(cookieParser());
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 

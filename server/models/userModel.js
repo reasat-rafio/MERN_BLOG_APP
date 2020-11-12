@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
+import bycrpt from "bcrypt";
 
 const userSchema = mongoose.Schema(
    {
       username: {
          type: String,
-         trim: true,
          maxlength: [30, "Max username length is 30"],
          required: [true, "name is required"],
       },
@@ -17,13 +17,38 @@ const userSchema = mongoose.Schema(
          type: String,
          minlength: [3, "Password is too short"],
       },
-      token: {
-         type: String,
-      },
    },
    { timestamps: true }
 );
 
-const UserModel = mongoose.model("User", userSchema);
+// Hasing the password before saving to database
+userSchema.pre("save", async function (next) {
+   const salt = await bycrpt.genSalt();
+   this.password = await bycrpt.hash(this.password, salt);
+   next();
+});
 
-export default UserModel;
+// Chacking the login process
+userSchema.statics.login = async function (email, password) {
+   const user = await this.findOne({ email: email });
+   if (user) {
+      const checkPassword = await bycrpt.compare(password, user.password);
+      if (checkPassword) {
+         return {
+            user,
+         };
+      } else {
+         return {
+            error: "password is incorrect",
+         };
+      }
+   } else {
+      return {
+         error: "User don't exist",
+      };
+   }
+};
+
+const User = mongoose.model("User", userSchema);
+
+export default User;
