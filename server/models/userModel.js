@@ -8,6 +8,11 @@ const userSchema = mongoose.Schema(
          maxlength: [30, "Max username length is 30"],
          required: [true, "name is required"],
       },
+      firstName: {
+         type: String,
+         maxlength: [30, "Max username length is 30"],
+         required: [true, "name is required"],
+      },
       email: {
          type: String,
          required: [true, "email is required"],

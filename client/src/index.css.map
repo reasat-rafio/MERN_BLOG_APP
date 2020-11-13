@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "AACA,OAAO,CAAC,0FAAI;AAIZ,AAAA,CAAC,CAAC;EACC,MAAM,EAAE,CAAC;EACT,OAAO,EAAE,CAAC;EACV,UAAU,EAAE,UAAU;CACxB",
+    "sources": [
+        "index.scss",
+        "components/sign_up/_singup.scss"
+    ],
+    "names": [],
+    "file": "index.css"
+}

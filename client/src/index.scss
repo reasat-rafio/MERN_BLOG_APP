@@ -1,0 +1,13 @@
+// Fonts
+@import url("https://fonts.googleapis.com/css2?family=Roboto&family=Sansita+Swashed&display=swap");
+$font-roboto: "Roboto", sans-serif;
+$font-sansita: "Sansita Swashed", cursive;
+
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+// Signup
+@import "./components/sign_up/singup";
