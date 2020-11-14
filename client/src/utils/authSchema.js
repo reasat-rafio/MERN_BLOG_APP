@@ -9,6 +9,6 @@ export const authSchema = yup.object().shape({
       .string()
       .email("Please enter a correct email")
       .required("Email is required"),
-   firstName: yup.string().max(8).required("This field is required"),
-   lastName: yup.string().max(8).required("This field is required"),
+   firstName: yup.string().max(20).required("This field is required"),
+   lastName: yup.string().max(20).required("This field is required"),
 });

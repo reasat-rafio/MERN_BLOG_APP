@@ -16,7 +16,7 @@ export const register_post = async (req, res) => {
       });
       console.log(`new User is ${newUser}`.bgGreen);
    } catch (error) {
-      res.status(500).json({
+      res.status(201).json({
          success: false,
          error: error.message,
       });
