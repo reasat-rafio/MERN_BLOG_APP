@@ -8,10 +8,13 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { authSchema } from "../../utils/authSchema";
 
 function Copyright() {
    return (
@@ -48,18 +51,25 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
    const classes = useStyles();
+   const { handleSubmit, register, errors } = useForm({
+      resolver: yupResolver(authSchema),
+   });
 
    return (
       <Container component="main" maxWidth="xs">
          <CssBaseline />
          <div className={classes.paper}>
             <Avatar className={classes.avatar}>
-               <LockOutlinedIcon />
+               <LockOpenIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
                Sign in
             </Typography>
-            <form className={classes.form} noValidate>
+            <form
+               onSubmit={handleSubmit((data) => console.log(data))}
+               className={classes.form}
+               noValidate
+            >
                <TextField
                   variant="outlined"
                   margin="normal"
@@ -70,7 +80,14 @@ export default function SignIn() {
                   name="email"
                   autoComplete="email"
                   autoFocus
+                  inputRef={register}
                />
+               {errors.email && (
+                  <Typography variant="body2" color="secondary">
+                     {errors.email.message}
+                  </Typography>
+               )}
+
                <TextField
                   variant="outlined"
                   margin="normal"
@@ -80,10 +97,25 @@ export default function SignIn() {
                   label="Password"
                   type="password"
                   id="password"
+                  inputRef={register}
                   autoComplete="current-password"
                />
+               <br />
+               {errors.password && (
+                  <Typography variant="body2" color="secondary">
+                     {errors.password.message}
+                  </Typography>
+               )}
+               <br />
                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
+                  control={
+                     <Checkbox
+                        inputRef={register}
+                        defaultValue={false}
+                        name="remember"
+                        color="primary"
+                     />
+                  }
                   label="Remember me"
                />
                <Button

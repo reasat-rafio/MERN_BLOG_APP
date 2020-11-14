@@ -10,6 +10,9 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { authSchema } from "../../utils/authSchema";
 
 function Copyright() {
    return (
@@ -24,6 +27,7 @@ function Copyright() {
    );
 }
 
+// MUI makeStyles
 const useStyles = makeStyles((theme) => ({
    paper: {
       marginTop: theme.spacing(8),
@@ -46,6 +50,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
    const classes = useStyles();
+   const { handleSubmit, register, errors } = useForm({
+      resolver: yupResolver(authSchema),
+   });
+   const onSubmit = (data) => {
+      console.log(data);
+   };
 
    return (
       <Container component="main" maxWidth="xs">
@@ -57,12 +67,17 @@ export default function SignUp() {
             <Typography component="h1" variant="h5">
                Register
             </Typography>
-            <form className={classes.form} noValidate>
+            <form
+               className={classes.form}
+               noValidate
+               onSubmit={handleSubmit(onSubmit)}
+            >
                <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                      <TextField
                         autoComplete="fname"
                         name="firstName"
+                        inputRef={register}
                         variant="outlined"
                         required
                         fullWidth
@@ -70,6 +85,12 @@ export default function SignUp() {
                         label="First Name"
                         autoFocus
                      />
+
+                     {/* {errors.firstName && (
+                        <Typography variant="body2" color="secondary">
+                           {errors.firstName.message}
+                        </Typography>
+                     )} */}
                   </Grid>
                   <Grid item xs={12} sm={6}>
                      <TextField
@@ -80,8 +101,16 @@ export default function SignUp() {
                         label="Last Name"
                         name="lastName"
                         autoComplete="lname"
+                        inputRef={register}
                      />
                   </Grid>
+
+                  {/* {errors.lastName && (
+                     <Typography variant="body2" color="secondary">
+                        {errors.lastName.message}
+                     </Typography>
+                  )} */}
+
                   <Grid item xs={12}>
                      <TextField
                         variant="outlined"
@@ -91,7 +120,13 @@ export default function SignUp() {
                         label="Email Address"
                         name="email"
                         autoComplete="email"
+                        inputRef={register}
                      />
+                     {errors.email && (
+                        <Typography variant="body2" color="secondary">
+                           {errors.email.message}
+                        </Typography>
+                     )}
                   </Grid>
                   <Grid item xs={12}>
                      <TextField
@@ -101,9 +136,15 @@ export default function SignUp() {
                         name="password"
                         label="Password"
                         type="password"
+                        inputRef={register}
                         id="password"
                         autoComplete="current-password"
                      />
+                     {errors.password && (
+                        <Typography variant="body2" color="secondary">
+                           {errors.password.message}
+                        </Typography>
+                     )}
                   </Grid>
                </Grid>
                <Button
