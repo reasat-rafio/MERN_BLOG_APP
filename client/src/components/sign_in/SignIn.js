@@ -15,6 +15,8 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signinSchema } from "../../utils/authSchema";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../redux/Actions/authAction";
 
 function Copyright() {
    return (
@@ -57,8 +59,12 @@ export default function SignIn() {
       resolver: yupResolver(signinSchema),
    });
 
+   // redux
+   const dispatch = useDispatch();
+
+   // on the form submit
    const onSubmit = (data) => {
-      console.log(data);
+      dispatch(loginUser(data));
    };
 
    return (

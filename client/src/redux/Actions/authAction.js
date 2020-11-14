@@ -1,5 +1,5 @@
 import axios from "axios";
-import { REGISTER, REGISTER_FAILED, SET_SNACKBAR } from "../types";
+import { REGISTER, REGISTER_FAILED, SET_SNACKBAR, SIGNIN } from "../types";
 import { setSnackbar } from "./snackbarAction";
 
 const url = "http://localhost:5000";
@@ -33,4 +33,26 @@ export const registerUser = (user) => async (dispatch) => {
    } catch (error) {
       console.log(error);
    }
+};
+
+export const loginUser = (user) => async (dispatch) => {
+   try {
+      const { data } = await axios.post(`${url}/login`, user);
+      if (data.success) {
+         dispatch({
+            type: SIGNIN,
+            payload: data,
+         });
+
+         dispatch(
+            setSnackbar(true, "success", `Welcome back ${data.user.username} !`)
+         );
+
+         setTimeout(() => {
+            window.location = "/home";
+         }, 2000);
+      } else {
+         dispatch(setSnackbar(true, "error", data.error));
+      }
+   } catch (error) {}
 };

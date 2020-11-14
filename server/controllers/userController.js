@@ -55,7 +55,7 @@ export const login_post = async (req, res) => {
 
       //user dont exit or password is wrong
       if (loginUser.error) {
-         res.status(401).json({
+         res.status(201).json({
             success: false,
             error: loginUser.error,
          });
