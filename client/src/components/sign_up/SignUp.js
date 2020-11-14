@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,8 +12,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { authSchema } from "../../utils/authSchema";
-import { useDispatch, useSelector } from "react-redux";
+import { signupSchema } from "../../utils/authSchema";
+import { useDispatch } from "react-redux";
 import { registerUser } from "../../redux/Actions/authAction";
 
 function Copyright() {
@@ -55,21 +55,13 @@ export default function SignUp() {
 
    // setting yup auth as useFormHook resolver
    const { handleSubmit, register, errors } = useForm({
-      resolver: yupResolver(authSchema),
+      resolver: yupResolver(signupSchema),
    });
 
    // redux dispatch
    const dispatch = useDispatch();
    // redux state
-   const state = useSelector((state) => state.auth);
-
-   console.log(state);
-
-   useEffect(() => {
-      if (state.success) {
-         window.location = "/signin";
-      }
-   }, [state]);
+   // const state = useSelector((state) => state.auth);
 
    // on the form submit
    const onSubmit = (data) => {

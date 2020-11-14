@@ -14,7 +14,7 @@ import Container from "@material-ui/core/Container";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { authSchema } from "../../utils/authSchema";
+import { signinSchema } from "../../utils/authSchema";
 
 function Copyright() {
    return (
@@ -51,9 +51,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
    const classes = useStyles();
+
+   // setting yup auth as useFormHook resolver
    const { handleSubmit, register, errors } = useForm({
-      resolver: yupResolver(authSchema),
+      resolver: yupResolver(signinSchema),
    });
+
+   const onSubmit = (data) => {
+      console.log(data);
+   };
 
    return (
       <Container component="main" maxWidth="xs">
@@ -66,9 +72,9 @@ export default function SignIn() {
                Sign in
             </Typography>
             <form
-               onSubmit={handleSubmit((data) => console.log(data))}
                className={classes.form}
                noValidate
+               onSubmit={handleSubmit(onSubmit)}
             >
                <TextField
                   variant="outlined"

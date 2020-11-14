@@ -13,6 +13,9 @@ export const registerUser = (user) => async (dispatch) => {
             payload: data,
          });
          dispatch(setSnackbar(true, "success", "Registration Succeed !"));
+         setTimeout(() => {
+            window.location = "/signin";
+         }, 2000);
       } else {
          dispatch({
             type: REGISTER_FAILED,
