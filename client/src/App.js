@@ -6,6 +6,8 @@ import SignUp from "./components/sign_up/SignUp";
 import SignIn from "./components/sign_in/SignIn";
 import Home from "./components/Home/Home";
 import Snackbars from "./components/snackbar/Snackbar";
+import NotFound404 from "./components/404/NotFound404";
+import PrivateRouter from "./components/PrivateRouter/PrivateRouter";
 
 function App() {
    return (
@@ -14,8 +16,11 @@ function App() {
          <Router>
             <Switch>
                <Route exact path="/" component={SignUp} />
-               <Route exact path="/signin" component={SignIn} />
-               <Route exact path="/home" component={Home} />
+               <Route path="/signin" component={SignIn} />
+               <PrivateRouter path="/home">
+                  <Home />
+               </PrivateRouter>
+               <Route path="*" component={NotFound404} />
             </Switch>
          </Router>
       </Suspense>

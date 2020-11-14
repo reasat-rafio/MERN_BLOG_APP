@@ -1,5 +1,11 @@
 import axios from "axios";
-import { REGISTER, REGISTER_FAILED, SET_SNACKBAR, SIGNIN } from "../types";
+import {
+   LOGOUT,
+   REGISTER,
+   REGISTER_FAILED,
+   SET_SNACKBAR,
+   SIGNIN,
+} from "../types";
 import { setSnackbar } from "./snackbarAction";
 
 const url = "http://localhost:5000";
@@ -55,4 +61,16 @@ export const loginUser = (user) => async (dispatch) => {
          dispatch(setSnackbar(true, "error", data.error));
       }
    } catch (error) {}
+};
+
+export const logoutUser = () => async (dispatch) => {
+   try {
+      await axios.post(`${url}/logout`);
+      dispatch({
+         type: LOGOUT,
+      });
+      window.location = "/signin";
+   } catch (error) {
+      dispatch(setSnackbar(true, "error", "Something went wrong"));
+   }
 };
