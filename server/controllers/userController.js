@@ -47,6 +47,11 @@ export const login_post = async (req, res) => {
             maxAge: 1000 * 3 * 24 * 60 * 60,
          });
 
+         res.cookie("id", _id, {
+            httpOnly: true,
+            maxAge: 1000 * 3 * 24 * 60 * 60,
+         });
+
          res.status(200).json({
             success: true,
             user: loginUser.user,
@@ -74,6 +79,7 @@ export const login_post = async (req, res) => {
 export const logout_post = async (req, res) => {
    try {
       res.cookie("jwt", "", { maxAge: 1 });
+      res.cookie("id", "", { maxAge: 1 });
       res.status(200).json({
          success: true,
       });
@@ -84,11 +90,4 @@ export const logout_post = async (req, res) => {
          error: error.message,
       });
    }
-};
-
-// @DESC    register a new user
-// @METHOD  GET
-// @ROUTE   /register
-export const signinCONT = (req, res) => {
-   res.send("Yo");
 };

@@ -3,9 +3,10 @@ import cors from "cors";
 import colors from "colors";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
-import router from "./routes/userRoutes.js";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import authRouter from "./routes/userRoutes.js";
+import blogRouter from "./routes/blogRoutes.js";
 
 dotenv.config({
    path: "./config/config.env",
@@ -21,7 +22,8 @@ app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
 // setting the routes
-app.use("/", router);
+app.use("/", authRouter);
+app.use("/blogs", blogRouter);
 
 const PORT = process.env.PORT || 5000;
 // db & server connection

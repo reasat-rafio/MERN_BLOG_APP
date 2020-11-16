@@ -7,10 +7,6 @@ import {
 
 const router = express.Router();
 
-// router.get("/", (req, res) => {
-//    res.send("adads");
-// });
-
 router.post("/register", register_post);
 
 router.post("/login", login_post);
