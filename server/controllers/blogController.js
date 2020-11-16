@@ -103,20 +103,18 @@ export const blogs_patch = async (req, res) => {
          });
       }
 
-      if (blog.user == req.cookies.id) {
-         // Editing the blog from database
-         const updateBlog = await Blog.findByIdAndUpdate(
-            id,
-            { ...req.body, id },
-            { new: true }
-         );
+      // Editing the blog from database
+      const updateBlog = await Blog.findByIdAndUpdate(
+         id,
+         { ...req.body, id },
+         { new: true }
+      );
 
-         // server response at success
-         res.status(201).json({
-            success: true,
-            data: updateBlog,
-         });
-      }
+      // server response at success
+      res.status(201).json({
+         success: true,
+         data: updateBlog,
+      });
    } catch (error) {
       console.log(error);
       // server response if it fail to get the data
