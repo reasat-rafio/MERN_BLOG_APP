@@ -1,14 +1,7 @@
 import axios from "axios";
-import {
-   LOGOUT,
-   REGISTER,
-   REGISTER_FAILED,
-   SET_SNACKBAR,
-   SIGNIN,
-} from "../types";
+import { LOGOUT, REGISTER, REGISTER_FAILED, SIGNIN } from "../types";
 import { setSnackbar } from "./snackbarAction";
-
-const url = "http://localhost:5000";
+import { url } from "../../utils/url";
 
 export const registerUser = (user) => async (dispatch) => {
    try {

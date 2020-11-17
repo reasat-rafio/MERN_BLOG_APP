@@ -11,10 +11,17 @@ export const blogs_get = async (req, res) => {
          .sort({ createdAt: "desc" });
 
       // server response at success
-      res.status(200).json({
-         success: true,
-         data: allBlogs,
-      });
+      if (allBlogs) {
+         res.status(200).json({
+            success: true,
+            data: allBlogs,
+         });
+      } else {
+         res.json({
+            success: false,
+            error: "eror",
+         });
+      }
    } catch (error) {
       // server response if it failed to get the data
       res.status(500).json({
