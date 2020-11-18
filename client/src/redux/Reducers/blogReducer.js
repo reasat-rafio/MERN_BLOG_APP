@@ -1,4 +1,4 @@
-import { FETCH_ALL_BLOGS } from "../types";
+import { CLEAR_BLOG, FETCH_ALL_BLOGS } from "../types";
 
 export const blogReducer = (state = {}, action) => {
    switch (action.type) {
@@ -6,6 +6,8 @@ export const blogReducer = (state = {}, action) => {
          return {
             blogs: [...action.payload],
          };
+      case CLEAR_BLOG:
+         return "";
       default:
          return state;
    }

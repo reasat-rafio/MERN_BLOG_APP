@@ -17,12 +17,22 @@ import {
    Toolbar,
    CssBaseline,
    AppBar,
+   Grid,
+   DialogTitle,
+   DialogContentText,
+   DialogContent,
+   DialogActions,
+   Dialog,
+   TextField,
+   Button,
 } from "@material-ui/core";
+
 import useStyles from "./useStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllBlogs } from "../../redux/Actions/blogAction";
 import Loading from "../../utils/Loading";
 import moment from "moment";
+import { logoutUser } from "../../redux/Actions/authAction";
 
 export default function Home() {
    const classes = useStyles();
@@ -38,116 +48,160 @@ export default function Home() {
       setAnchorEl(e.currentTarget);
    };
 
+   // Getting the current user from & redux & database
+   const logedInUser = useSelector((state) => state.auth.user);
+
    // Getting the blogs from database
    const dispatch = useDispatch();
    const state = useSelector((state) => state.blog.blogs);
+
+   // setting the blogs into a state
    const [blogs, setBlogs] = useState(state);
 
+   // Calling the dispatch action
    useEffect(() => {
       dispatch(fetchAllBlogs());
    }, [dispatch, blogs]);
 
-   // console.log(
-   //    moment().subtract(1).format("MMM Do YY") ===
-   //       moment(blogs.createdAt).format("MMM Do YY")
-   // );
-   // console.log(moment().subtract(1, "days").calendar());
+   // Logout the user
+   const logOut = () => {
+      dispatch(logoutUser());
+   };
+
+   // Modal state
+   const [openModal, setOpenModal] = useState(false);
+   // Closing the modal
+   const handleCloseModal = () => {
+      setOpenModal(false);
+   };
+   // Opening the modal
+   const handleClickOpenModal = () => {
+      setOpenModal(true);
+   };
 
    return (
       <React.Fragment>
          <CssBaseline />
-         <Paper square className={classes.paper}>
-            <Typography className={classes.text} variant="h5" gutterBottom>
-               Daily Blog 📝
-            </Typography>
-            {blogs ? (
-               <List className={classes.list}>
-                  {blogs.map(({ _id, title, body, user, createdAt }) => (
-                     <React.Fragment key={_id}>
-                        {/* setting the post date and day */}
-                        {/* {moment(createdAt).subtract(10, "days").calendar() ===
-                        moment().subtract(10, "days").calendar() ? (
-                           <ListSubheader className={classes.subheader}>
-                              Today
-                           </ListSubheader>
-                        ) : moment().subtract(1).format("MMM Do YY") ===
-                          moment(blogs.createdAt).format("MMM Do YY") ? (
-                           <ListSubheader className={classes.subheader}>
-                              {moment(createdAt).fromNow()}
-                           </ListSubheader>
-                        ) : (
-                           <ListSubheader className={classes.subheader}>
-                              {moment(createdAt).format(
-                                 "MMMM Do YYYY, h:mm:ss a"
-                              )}
-                           </ListSubheader>
-                        )} */}
+         <Grid container justify="center" alignItems="center">
+            <Grid item xs={12} lg={8}>
+               <Paper square className={classes.paper}>
+                  <Typography
+                     className={classes.text}
+                     variant="h5"
+                     gutterBottom
+                  >
+                     Daily Blog 📝
+                  </Typography>
+                  {blogs ? (
+                     <List className={classes.list}>
+                        {blogs.map(({ _id, title, body, user, createdAt }) => (
+                           <React.Fragment key={_id}>
+                              {/* setting the post date and day */}
+                              {
+                                 <ListSubheader className={classes.subheader}>
+                                    {moment(createdAt).fromNow()}
+                                 </ListSubheader>
+                              }
 
-                        {/* setting the post date and day */}
-                        {
-                           <ListSubheader className={classes.subheader}>
-                              {moment(createdAt).fromNow()}
-                           </ListSubheader>
-                        }
+                              <ListItem button>
+                                 <ListItemAvatar>
+                                    <Avatar
+                                       alt="Profile Picture"
+                                       src={user.picture}
+                                    >
+                                       {user.username.slice(0, 3)}
+                                    </Avatar>
+                                 </ListItemAvatar>
 
-                        <ListItem button>
-                           <ListItemAvatar>
-                              <Avatar alt="Profile Picture" src={user.picture}>
-                                 {user.username.slice(0, 3)}
-                              </Avatar>
-                           </ListItemAvatar>
-
-                           <ListItemText primary={title} secondary={body} />
-                        </ListItem>
-                     </React.Fragment>
-                  ))}
-               </List>
-            ) : (
-               <Loading />
-            )}
-         </Paper>
-         <AppBar position="fixed" color="primary" className={classes.appBar}>
-            <Toolbar>
-               <Fab
-                  color="secondary"
-                  aria-label="add"
-                  className={classes.fabButton}
+                                 <ListItemText
+                                    primary={title}
+                                    secondary={body}
+                                 />
+                              </ListItem>
+                           </React.Fragment>
+                        ))}
+                     </List>
+                  ) : (
+                     <Loading />
+                  )}
+               </Paper>
+               <AppBar
+                  position="fixed"
+                  color="primary"
+                  className={classes.appBar}
                >
-                  <AddIcon />
-               </Fab>
-               <div className={classes.grow} />
+                  <Toolbar>
+                     <Fab
+                        onClick={handleClickOpenModal}
+                        color="secondary"
+                        aria-label="add"
+                        className={classes.fabButton}
+                     >
+                        <AddIcon />
+                     </Fab>
+                     <div className={classes.grow} />
 
-               <IconButton
-                  edge="end"
-                  color="inherit"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
+                     <IconButton
+                        edge="end"
+                        color="inherit"
+                        aria-label="account of current user"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        onClick={handleMenu}
+                     >
+                        <MoreIcon />
+                     </IconButton>
+                     <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                           vertical: "top",
+                           horizontal: "right",
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                           vertical: "top",
+                           horizontal: "right",
+                        }}
+                        open={open}
+                        onClose={handleClose}
+                     >
+                        <MenuItem onClick={handleClose}>Edit Profile</MenuItem>
+                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        <MenuItem onClick={logOut}>Logout</MenuItem>
+                     </Menu>
+                  </Toolbar>
+               </AppBar>
+               <Dialog
+                  open={openModal}
+                  onClose={handleCloseModal}
+                  aria-labelledby="form-dialog-title"
                >
-                  <MoreIcon />
-               </IconButton>
-               <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                     vertical: "top",
-                     horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                     vertical: "top",
-                     horizontal: "right",
-                  }}
-                  open={open}
-                  onClose={handleClose}
-               >
-                  <MenuItem onClick={handleClose}>Edit Profile</MenuItem>
-                  <MenuItem onClick={handleClose}>My account</MenuItem>
-                  <MenuItem onClick={handleClose}>Logout</MenuItem>
-               </Menu>
-            </Toolbar>
-         </AppBar>
+                  <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                  <DialogContent>
+                     <DialogContentText>
+                        {`Hello ${logedInUser.username}`}
+                     </DialogContentText>
+                     <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Email Address"
+                        type="email"
+                        fullWidth
+                     />
+                  </DialogContent>
+                  <DialogActions>
+                     <Button onClick={handleCloseModal} color="primary">
+                        Cancel
+                     </Button>
+                     <Button onClick={handleCloseModal} color="primary">
+                        Subscribe
+                     </Button>
+                  </DialogActions>
+               </Dialog>
+            </Grid>
+         </Grid>
       </React.Fragment>
    );
 }

@@ -10,13 +10,13 @@ import NotFound404 from "./components/404/NotFound404";
 import PrivateRouter from "./components/PrivateRouter/PrivateRouter";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
+// import BlogPostModal from "./components/BlogPostModal.js/BlogPostModal";
 
 function App() {
    const theme = createMuiTheme({
       palette: {
          type: "dark",
       },
-      // primary: "#A8E14B",
    });
 
    return (
@@ -31,6 +31,9 @@ function App() {
                      <PrivateRouter path="/home">
                         <Home />
                      </PrivateRouter>
+                     {/* <PrivateRouter path="/blog/post">
+                        <BlogPostModal />
+                     </PrivateRouter> */}
                      <Route path="*" component={NotFound404} />
                   </Switch>
                </Router>
