@@ -18,21 +18,14 @@ import {
    CssBaseline,
    AppBar,
    Grid,
-   DialogTitle,
-   DialogContentText,
-   DialogContent,
-   DialogActions,
-   Dialog,
-   TextField,
-   Button,
 } from "@material-ui/core";
-
 import useStyles from "./useStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllBlogs } from "../../redux/Actions/blogAction";
 import Loading from "../../utils/Loading";
 import moment from "moment";
 import { logoutUser } from "../../redux/Actions/authAction";
+import { BlogPostModal } from "./BlogPostModal/BlogPostModal";
 
 export default function Home() {
    const classes = useStyles();
@@ -74,6 +67,7 @@ export default function Home() {
    const handleCloseModal = () => {
       setOpenModal(false);
    };
+
    // Opening the modal
    const handleClickOpenModal = () => {
       setOpenModal(true);
@@ -172,34 +166,12 @@ export default function Home() {
                      </Menu>
                   </Toolbar>
                </AppBar>
-               <Dialog
-                  open={openModal}
-                  onClose={handleCloseModal}
-                  aria-labelledby="form-dialog-title"
-               >
-                  <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
-                  <DialogContent>
-                     <DialogContentText>
-                        {`Hello ${logedInUser.username}`}
-                     </DialogContentText>
-                     <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                     />
-                  </DialogContent>
-                  <DialogActions>
-                     <Button onClick={handleCloseModal} color="primary">
-                        Cancel
-                     </Button>
-                     <Button onClick={handleCloseModal} color="primary">
-                        Subscribe
-                     </Button>
-                  </DialogActions>
-               </Dialog>
+               <BlogPostModal
+                  openModal={openModal}
+                  handleCloseModal={handleCloseModal}
+                  logedInUser={logedInUser}
+                  handleClickOpenModal={handleClickOpenModal}
+               />
             </Grid>
          </Grid>
       </React.Fragment>

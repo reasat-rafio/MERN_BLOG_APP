@@ -1,4 +1,3 @@
-import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 export const signupSchema = yup.object().shape({
@@ -23,4 +22,9 @@ export const signinSchema = yup.object().shape({
       .string()
       .min(4, "Password must be longer than 4 cheracter")
       .required("This field is required"),
+});
+
+export const blogSchema = yup.object().shape({
+   title: yup.string().required("Please add a title to your blog"),
+   body: yup.string().required("Please some details to your blog"),
 });
