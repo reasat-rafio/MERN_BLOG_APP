@@ -37,15 +37,18 @@ export const blogs_get = async (req, res) => {
 export const blogs_post = async (req, res) => {
    try {
       // setting the user in database as the logged in user id from the server
-      req.body.user = req.cookies.id;
+      // req.body.user = req.cookies.id;
+
+      console.log(req.body);
 
       // Creating a new blog
       const newBlog = await Blog.create(req.body);
+      const allBlogs = await Blog.find().populate("user");
 
       // server response at success
       res.status(201).json({
          success: true,
-         data: newBlog,
+         data: allBlogs,
       });
    } catch (error) {
       // server response if it fail to get the data
@@ -85,6 +88,7 @@ export const blogs_delete = async (req, res) => {
       }
    } catch (error) {
       // server response if it fail to get the data
+      console.log(error);
       res.status(500).json({
          success: false,
          error: error.message,

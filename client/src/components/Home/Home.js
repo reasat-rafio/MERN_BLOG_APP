@@ -46,10 +46,11 @@ export default function Home() {
 
    // Getting the blogs from database
    const dispatch = useDispatch();
-   const state = useSelector((state) => state.blog.blogs);
+   // const all_blogs = ;
+   // const p = useSelector((state) => state.blog);
 
    // setting the blogs into a state
-   const [blogs, setBlogs] = useState(state);
+   const [blogs, setBlogs] = useState(useSelector((state) => state.blog.blogs));
 
    // Calling the dispatch action
    useEffect(() => {
@@ -86,18 +87,17 @@ export default function Home() {
                   >
                      Daily Blog 📝
                   </Typography>
-                  {blogs ? (
+                  {blogs && blogs.length ? (
                      <List className={classes.list}>
                         {blogs.map(({ _id, title, body, user, createdAt }) => (
                            <React.Fragment key={_id}>
-                              {/* setting the post date and day */}
                               {
                                  <ListSubheader className={classes.subheader}>
                                     {moment(createdAt).fromNow()}
                                  </ListSubheader>
                               }
 
-                              <ListItem button>
+                              <ListItem button alignItems="flex-start">
                                  <ListItemAvatar>
                                     <Avatar
                                        alt="Profile Picture"
@@ -109,7 +109,16 @@ export default function Home() {
 
                                  <ListItemText
                                     primary={title}
-                                    secondary={body}
+                                    secondary={
+                                       <div>
+                                          <Typography
+                                             component="span"
+                                             variant="body2"
+                                             color="textPrimary"
+                                          ></Typography>
+                                          {body}
+                                       </div>
+                                    }
                                  />
                               </ListItem>
                            </React.Fragment>
@@ -171,6 +180,7 @@ export default function Home() {
                   handleCloseModal={handleCloseModal}
                   logedInUser={logedInUser}
                   handleClickOpenModal={handleClickOpenModal}
+                  setOpenModal={setOpenModal}
                />
             </Grid>
          </Grid>

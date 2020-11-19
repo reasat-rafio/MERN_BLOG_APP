@@ -16,6 +16,8 @@ import {
 } from "@material-ui/core";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { blogSchema } from "../../../utils/authSchema";
+import { useDispatch, useSelector } from "react-redux";
+import { postBlog } from "../../../redux/Actions/blogAction";
 const useStyles = makeStyles((theme) => ({
    appBar: {
       position: "relative",
@@ -23,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
    title: {
       marginLeft: theme.spacing(2),
       flex: 1,
+   },
+   lastText: {
+      marginTop: "20%",
    },
 }));
 
@@ -34,7 +39,7 @@ export const BlogPostModal = ({
    openModal,
    handleCloseModal,
    logedInUser,
-   handleClickOpenModal,
+   setOpenModal,
 }) => {
    const classes = useStyles();
 
@@ -43,9 +48,17 @@ export const BlogPostModal = ({
       resolver: yupResolver(blogSchema),
    });
 
+   // redux dispatch
+   const dispatch = useDispatch();
+
    // Form on Submit
    const onSubmit = (data) => {
-      console.log(data);
+      data.user = logedInUser._id;
+      dispatch(postBlog(data, logedInUser.username));
+      setOpenModal(false);
+      setTimeout(() => {
+         window.location.reload();
+      }, 2000);
    };
 
    return (
@@ -116,7 +129,7 @@ export const BlogPostModal = ({
                   )}
                </DialogContent>
             </form>
-            <Typography variant="h6" className={classes.title}>
+            <Typography variant="h6" className={classes.lastText}>
                {`Have a nice day ${logedInUser.username}!! ⛄`}
             </Typography>
          </Dialog>

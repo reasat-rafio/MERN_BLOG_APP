@@ -3,6 +3,7 @@ export const SIGNIN = "SIGNIN";
 export const LOGOUT = "LOGOUT";
 export const REGISTER_FAILED = "REGISTER_FAILED";
 export const FETCH_ALL_BLOGS = "FETCH_ALL_BLOGS";
+export const POST_A_BLOG = "POST_A_BLOG";
 export const SET_SNACKBAR = "SET_SNACKBAR";
 export const CLEAR_SNACKBAR = "CLEAR_SNACKBAR";
 export const CLEAR_USER = "CLEAR_USER";

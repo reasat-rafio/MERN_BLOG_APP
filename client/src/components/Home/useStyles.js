@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
    },
    list: {
       marginBottom: theme.spacing(2),
+      width: "100%",
    },
    subheader: {
       backgroundColor: theme.palette.background.paper,
@@ -28,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
       right: 0,
       margin: "0 auto",
    },
+   // inline: {
+   //    display: "inline",
+   //    maxWidth: "200px",
+   //    background: "red",
+   // },
 }));
 
 export default useStyles;
