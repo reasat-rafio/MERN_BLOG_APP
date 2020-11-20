@@ -74,6 +74,11 @@ export default function Home() {
       setOpenModal(true);
    };
 
+   // Going to user profile function
+   const myProfile = () => {
+      window.location.pathname = "/my-profile/blogs";
+   };
+
    return (
       <React.Fragment>
          <CssBaseline />
@@ -169,8 +174,7 @@ export default function Home() {
                         open={open}
                         onClose={handleClose}
                      >
-                        <MenuItem onClick={handleClose}>Edit Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        <MenuItem onClick={myProfile}>My account</MenuItem>
                         <MenuItem onClick={logOut}>Logout</MenuItem>
                      </Menu>
                   </Toolbar>

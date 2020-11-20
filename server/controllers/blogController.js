@@ -43,7 +43,9 @@ export const blogs_post = async (req, res) => {
 
       // Creating a new blog
       const newBlog = await Blog.create(req.body);
-      const allBlogs = await Blog.find().populate("user");
+      const allBlogs = await Blog.find()
+         .sort({ createdAt: -1 })
+         .populate("user");
 
       // server response at success
       res.status(201).json({
