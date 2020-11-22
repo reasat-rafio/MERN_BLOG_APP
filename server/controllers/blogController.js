@@ -39,8 +39,6 @@ export const blogs_post = async (req, res) => {
       // setting the user in database as the logged in user id from the server
       // req.body.user = req.cookies.id;
 
-      console.log(req.body);
-
       // Creating a new blog
       const newBlog = await Blog.create(req.body);
       const allBlogs = await Blog.find()
@@ -134,6 +132,33 @@ export const blogs_patch = async (req, res) => {
       res.status(500).json({
          success: false,
          error: error.message,
+      });
+   }
+};
+
+//    @DESC    get all the blogs to show in user profile
+//    @METHOD  GET
+//    @ROUTE   /user/blog
+export const profileBlogs_get = async (req, res) => {
+   try {
+      const { _id } = req.body;
+      const userBlogs = await Blog.find({ _id });
+      if (!userBlogs) {
+         res.status(200).json({
+            success: true,
+            message: "NO_BLOGS",
+         });
+      } else {
+         res.status(200).json({
+            success: true,
+            data: userBlogs,
+         });
+      }
+   } catch (error) {
+      console.log(error);
+      res.status(500).json({
+         success: false,
+         error: "Server error",
       });
    }
 };

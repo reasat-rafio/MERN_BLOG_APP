@@ -2,7 +2,6 @@ import { url } from "../../utils/url";
 import axios from "axios";
 import { FETCH_ALL_BLOGS, POST_A_BLOG } from "../types";
 import { setSnackbar } from "./snackbarAction";
-import { useSelector } from "react-redux";
 
 export const fetchAllBlogs = () => async (dispatch) => {
    try {
