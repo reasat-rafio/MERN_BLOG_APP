@@ -141,14 +141,19 @@ export const blogs_patch = async (req, res) => {
 //    @ROUTE   /user/blog
 export const profileBlogs_get = async (req, res) => {
    try {
-      const { _id } = req.body;
-      const userBlogs = await Blog.find({ _id });
-      if (!userBlogs) {
+      // Getting the user id from params
+      const user = req.params.id;
+      // Gettting all the blogs that user post from database
+      const userBlogs = await Blog.find({ user });
+
+      // If user havent post anything yet
+      if (!userBlogs.length) {
          res.status(200).json({
             success: true,
             message: "NO_BLOGS",
          });
       } else {
+         // If user have saved post
          res.status(200).json({
             success: true,
             data: userBlogs,

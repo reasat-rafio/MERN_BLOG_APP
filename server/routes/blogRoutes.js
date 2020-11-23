@@ -13,6 +13,6 @@ router.get("/", blogs_get);
 router.post("/post", blogs_post);
 router.delete("/delete/:id", blogs_delete);
 router.patch("/edit/:id", blogs_patch);
-router.get("/user/blogs", profileBlogs_get);
+router.get("/:id", profileBlogs_get);
 
 export default router;
