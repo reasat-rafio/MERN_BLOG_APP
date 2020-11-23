@@ -63,27 +63,37 @@ export const blogs_post = async (req, res) => {
 // METHOD   DELETE
 // ROUTE    blogs/delete/:id
 export const blogs_delete = async (req, res) => {
-   // getting the id from request url
-   const id = req.params.id;
    try {
+      // getting the id from request url
+      const id = req.params.id;
+      const { data } = req.body;
+      console.log("data", req.body);
       // finding the blog
-      const blog = await Blog.findById(id);
+      const blog = await Blog.find({ _id: id });
 
       // if that blog dont exist
       if (!blog) {
-         return res.status(404).json({
+         console.log("eee");
+         res.status(200).json({
             success: false,
             error: "Blog dont exist",
          });
       }
 
-      if (blog.user == req.cookies.id) {
+      if (blog && blog.user == req.cookies.id) {
          // Deleting the blog from database
          const deletedBlog = await Blog.remove({ _id: id });
          // server response at success
+
+         // getting updated blogs
+         const all_blogs = await Blog.find()
+            .populate("user")
+            .sort({ createdAt: "desc" });
+
+         //
          res.status(200).json({
             success: true,
-            data: deletedBlog,
+            data: all_blogs,
          });
       }
    } catch (error) {

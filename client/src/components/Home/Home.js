@@ -18,6 +18,7 @@ import {
    CssBaseline,
    AppBar,
    Grid,
+   Divider,
 } from "@material-ui/core";
 import useStyles from "./useStyles";
 import { useDispatch, useSelector } from "react-redux";
@@ -84,15 +85,11 @@ export default function Home() {
          <CssBaseline />
          <Grid container justify="center" alignItems="center">
             <Grid item xs={12} lg={8}>
-               <Paper square className={classes.paper}>
-                  <Typography
-                     className={classes.text}
-                     variant="h5"
-                     gutterBottom
-                  >
-                     Daily Blog 📝
-                  </Typography>
-                  {blogs && blogs.length ? (
+               <Typography className={classes.text} variant="h5" gutterBottom>
+                  Daily Blog 📝
+               </Typography>
+               {blogs && blogs.length ? (
+                  <Paper square className={classes.paper}>
                      <List className={classes.list}>
                         {blogs.map(({ _id, title, body, user, createdAt }) => (
                            <React.Fragment key={_id}>
@@ -120,19 +117,22 @@ export default function Home() {
                                              component="span"
                                              variant="body2"
                                              color="textPrimary"
-                                          ></Typography>
-                                          {body}
+                                          >
+                                             {body}
+                                          </Typography>
                                        </div>
                                     }
                                  />
                               </ListItem>
+                              <Divider light />
                            </React.Fragment>
                         ))}
                      </List>
-                  ) : (
-                     <Loading />
-                  )}
-               </Paper>
+                  </Paper>
+               ) : (
+                  <Loading />
+               )}
+
                <AppBar
                   position="fixed"
                   color="primary"

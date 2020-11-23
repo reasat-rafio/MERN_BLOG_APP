@@ -1,15 +1,50 @@
-import React from "react";
-import { Avatar, Box, Grid, Typography } from "@material-ui/core";
+import React, { useEffect } from "react";
+import {
+   Avatar,
+   Grid,
+   List,
+   ListItemText,
+   ListSubheader,
+   ListItem,
+   Paper,
+   Typography,
+   Button,
+   Divider,
+} from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { useStyles } from "./useStyles";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchLoggedInUserBlogs } from "../../redux/Actions/blogAction";
+import moment from "moment";
+import Loading from "../../utils/Loading";
+import Dialog from "./Dialog/Dialog";
+import { useState } from "react";
 
 const MyProfile = () => {
    const { user } = useSelector((state) => state.auth);
-
+   const { userProfileBlogs } = useSelector((state) => state.blog);
    const classes = useStyles();
+   const dispatch = useDispatch();
+
+   // fetching the data on page load
+   useEffect(() => {
+      dispatch(fetchLoggedInUserBlogs(user._id));
+   }, []);
+
+   // Delete dialog popup state
+   const [open, setOpen] = useState(false);
+
+   // Deleting blog
+   const deletePost = () => {
+      setOpen(true);
+   };
+
+   const editPost = () => {};
+
    return (
-      <div>
-         <Grid container spacing={3}>
+      <>
+         <Grid container justify="center" alignItems="center" spacing={3}>
             <Grid
                justify="center"
                alignItems="center"
@@ -44,8 +79,92 @@ const MyProfile = () => {
                   {user.username}
                </Typography>
             </Grid>
+
+            <Grid item xs={12} lg={8}>
+               <Paper square>
+                  <Typography
+                     className={classes.text}
+                     variant="h5"
+                     gutterBottom
+                  >
+                     Your Blogs
+                  </Typography>
+                  {userProfileBlogs === null && (
+                     <Typography className={classes.text}>
+                        You havent post anything yet!
+                     </Typography>
+                  )}
+                  {userProfileBlogs && userProfileBlogs.length && (
+                     <List className={classes.list}>
+                        {userProfileBlogs.map(
+                           ({ _id, title, body, createdAt }) => (
+                              <React.Fragment key={_id}>
+                                 {
+                                    <ListSubheader
+                                       className={classes.subheader}
+                                    >
+                                       {moment(createdAt).fromNow()}
+                                    </ListSubheader>
+                                 }
+
+                                 <ListItem button alignItems="flex-start">
+                                    <ListItemText
+                                       primary={title}
+                                       secondary={
+                                          <div>
+                                             <Typography>{body}</Typography>
+                                             <div
+                                                style={{
+                                                   background: "#5d5d5a3a",
+                                                }}
+                                             >
+                                                {/* <IconButton
+                                                   color="primary"
+                                                   aria-label="delete"
+                                                >
+                                                   <DeleteIcon
+                                                      color="secondary"
+                                                      fontSize="small"
+                                                   />
+                                                </IconButton> */}
+                                                <Button
+                                                   size="small"
+                                                   variant="contained"
+                                                   color="primary"
+                                                   onClick={editPost}
+                                                >
+                                                   Edit
+                                                </Button>
+                                                <Button
+                                                   size="small"
+                                                   variant="contained"
+                                                   color="secondary"
+                                                   onClick={deletePost}
+                                                >
+                                                   Delete
+                                                </Button>
+                                             </div>
+                                          </div>
+                                       }
+                                    />
+                                 </ListItem>
+                                 {/* modal */}
+                                 <Dialog
+                                    _id={_id}
+                                    open={open}
+                                    userId={user._id}
+                                    setOpen={setOpen}
+                                 />
+                                 <Divider light />
+                              </React.Fragment>
+                           )
+                        )}
+                     </List>
+                  )}
+               </Paper>
+            </Grid>
          </Grid>
-      </div>
+      </>
    );
 };
 

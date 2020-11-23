@@ -8,7 +8,23 @@ export const useStyles = makeStyles((theme) => ({
       },
       flexGrow: 1,
    },
-
+   paper: {
+      paddingBottom: 50,
+   },
+   text: {
+      padding: theme.spacing(2, 2, 2),
+      background: "#2A2C2B",
+   },
+   list: {
+      marginBottom: theme.spacing(2),
+      width: "100%",
+   },
+   subheader: {
+      backgroundColor: theme.palette.background.paper,
+   },
+   grow: {
+      flexGrow: 1,
+   },
    large: {
       textAlign: "center",
       width: theme.spacing(17),
