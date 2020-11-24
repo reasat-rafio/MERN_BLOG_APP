@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
@@ -17,7 +17,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { blogSchema } from "../../../utils/authSchema";
 import { useDispatch, useSelector } from "react-redux";
-import { postBlog } from "../../../redux/Actions/blogAction";
+import { fetchClickedBLog, postBlog } from "../../../redux/Actions/blogAction";
 const useStyles = makeStyles((theme) => ({
    appBar: {
       position: "relative",
@@ -35,7 +35,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
    return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export const BlogPostModal = ({
+export const MyProfileModal = ({
    openModal,
    handleCloseModal,
    logedInUser,
@@ -44,13 +44,22 @@ export const BlogPostModal = ({
 }) => {
    const classes = useStyles();
 
+   // redux dispatch
+   const dispatch = useDispatch();
+
+   //    Getting the current blog
+   useEffect(() => {
+      dispatch(fetchClickedBLog(_id));
+   }, []);
+
+   const [title, setTitle] = useState();
+
+   const { currentBlog } = useSelector((state) => state.blog);
+
    //React form hooks
    const { register, handleSubmit, watch, errors } = useForm({
       resolver: yupResolver(blogSchema),
    });
-
-   // redux dispatch
-   const dispatch = useDispatch();
 
    // Form on Submit
    const onSubmit = (data) => {

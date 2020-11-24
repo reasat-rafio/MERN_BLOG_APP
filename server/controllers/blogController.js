@@ -148,7 +148,7 @@ export const blogs_patch = async (req, res) => {
 
 //    @DESC    get all the blogs to show in user profile
 //    @METHOD  GET
-//    @ROUTE   /user/blog
+//    @ROUTE   /blogs/:id
 export const profileBlogs_get = async (req, res) => {
    try {
       // Getting the user id from params
@@ -174,6 +174,33 @@ export const profileBlogs_get = async (req, res) => {
       res.status(500).json({
          success: false,
          error: "Server error",
+      });
+   }
+};
+
+//    @DESC    Findin the exact blog by clicking edit in front end
+//    @METHID  GET
+//    @ROUTE   /blogs/u/:id
+export const userProfileClickedBlog_get = async (req, res) => {
+   try {
+      const _id = req.params.id;
+      const blog = await Blog.find({ _id });
+      if (blog) {
+         res.status(200).json({
+            success: true,
+            data: blog,
+         });
+      } else {
+         res.status(200).json({
+            success: false,
+            data: "No blog found",
+         });
+      }
+   } catch (error) {
+      console.log(error);
+      res.status(500).json({
+         success: false,
+         error: error.message,
       });
    }
 };

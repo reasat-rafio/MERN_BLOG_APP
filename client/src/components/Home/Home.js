@@ -110,7 +110,17 @@ export default function Home() {
                                  </ListItemAvatar>
 
                                  <ListItemText
-                                    primary={title}
+                                    primary={
+                                       <>
+                                          <small>
+                                             {user.username} • {""}{" "}
+                                             {moment(createdAt)
+                                                .subtract(10, "days")
+                                                .calendar()}
+                                          </small>
+                                          <Typography>{title} </Typography>
+                                       </>
+                                    }
                                     secondary={
                                        <div>
                                           <Typography

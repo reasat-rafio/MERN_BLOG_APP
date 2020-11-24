@@ -17,9 +17,9 @@ import { useStyles } from "./useStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLoggedInUserBlogs } from "../../redux/Actions/blogAction";
 import moment from "moment";
-import Loading from "../../utils/Loading";
 import Dialog from "./Dialog/Dialog";
 import { useState } from "react";
+import { MyProfileModal } from "./MyProfileModal/MyProfileModal";
 
 const MyProfile = () => {
    const { user } = useSelector((state) => state.auth);
@@ -40,7 +40,24 @@ const MyProfile = () => {
       setOpen(true);
    };
 
-   const editPost = () => {};
+   // Modal state
+   const [openModal, setOpenModal] = useState(false);
+   // Closing the modal
+   const handleCloseModal = () => {
+      setOpenModal(false);
+   };
+
+   // Opening the modal
+   const handleClickOpenModal = () => {
+      setOpenModal(true);
+   };
+
+   // Getting the current user from & redux & database
+   const logedInUser = useSelector((state) => state.auth.user);
+
+   const editPost = () => {
+      setOpenModal(true);
+   };
 
    return (
       <>
@@ -97,7 +114,7 @@ const MyProfile = () => {
                   {userProfileBlogs && userProfileBlogs.length && (
                      <List className={classes.list}>
                         {userProfileBlogs.map(
-                           ({ _id, title, body, createdAt }) => (
+                           ({ _id, title, body, createdAt, username }) => (
                               <React.Fragment key={_id}>
                                  {
                                     <ListSubheader
@@ -156,6 +173,15 @@ const MyProfile = () => {
                                     setOpen={setOpen}
                                  />
                                  <Divider light />
+                                 {/* BLOG MODAL */}
+                                 <MyProfileModal
+                                    openModal={openModal}
+                                    handleCloseModal={handleCloseModal}
+                                    logedInUser={logedInUser}
+                                    handleClickOpenModal={handleClickOpenModal}
+                                    setOpenModal={setOpenModal}
+                                    _id={_id}
+                                 />
                               </React.Fragment>
                            )
                         )}

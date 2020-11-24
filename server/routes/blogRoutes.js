@@ -5,6 +5,7 @@ import {
    blogs_delete,
    blogs_patch,
    profileBlogs_get,
+   userProfileClickedBlog_get,
 } from "../controllers/blogController.js";
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.post("/post", blogs_post);
 router.delete("/delete/:id", blogs_delete);
 router.patch("/edit/:id", blogs_patch);
 router.get("/:id", profileBlogs_get);
+router.get("/u/:id", userProfileClickedBlog_get);
 
 export default router;

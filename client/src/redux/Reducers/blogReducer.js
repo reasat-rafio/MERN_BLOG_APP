@@ -4,12 +4,14 @@ import {
    FETCH_ALL_BLOGS,
    FETCH_LOGGEDIN_USER_BLOG,
    POST_A_BLOG,
+   FETCH_CLICKED_BLOGS,
    USER_POST_NULL,
 } from "../types";
 
 const initalState = {
    blogs: [],
    userProfileBlogs: "",
+   currentBlog: "",
 };
 
 export const blogReducer = (state = initalState, action) => {
@@ -35,6 +37,11 @@ export const blogReducer = (state = initalState, action) => {
          return {
             ...state,
             userProfileBlogs: null,
+         };
+      case FETCH_CLICKED_BLOGS:
+         return {
+            ...state,
+            currentBlog: [...action.payload],
          };
 
       case DELETE_A_BLOG:

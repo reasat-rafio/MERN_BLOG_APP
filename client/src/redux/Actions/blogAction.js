@@ -5,6 +5,8 @@ import {
    FETCH_ALL_BLOGS,
    FETCH_LOGGEDIN_USER_BLOG,
    POST_A_BLOG,
+   FETCH_CLICKED_BLOGS,
+   FETCH_CLICKED_BLOGS_FAILED,
    USER_POST_NULL,
 } from "../types";
 import { setSnackbar } from "./snackbarAction";
@@ -84,6 +86,25 @@ export const deleteBlog = (_id, userId) => async (dispatch) => {
       }
       if (!data.success) {
          dispatch(setSnackbar(true, "error", `Something went wrong`));
+      }
+   } catch (error) {
+      console.log(error);
+   }
+};
+
+export const fetchClickedBLog = (_id) => async (dispatch) => {
+   try {
+      const { data } = await axios.get(`${url}/blogs/u/${_id}`);
+      if (data.success) {
+         dispatch({
+            type: FETCH_CLICKED_BLOGS,
+            payload: data.data,
+         });
+      }
+      if (!data.success) {
+         dispatch({
+            type: FETCH_CLICKED_BLOGS_FAILED,
+         });
       }
    } catch (error) {
       console.log(error);
