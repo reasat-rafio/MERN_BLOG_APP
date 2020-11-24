@@ -18,6 +18,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { blogSchema } from "../../../utils/authSchema";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchClickedBLog, postBlog } from "../../../redux/Actions/blogAction";
+import { useParams } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
    appBar: {
       position: "relative",
@@ -35,26 +37,40 @@ const Transition = React.forwardRef(function Transition(props, ref) {
    return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export const MyProfileModal = ({
-   openModal,
-   handleCloseModal,
-   logedInUser,
-   setOpenModal,
-   _id,
-}) => {
+export const MyProfileModal = () => {
    const classes = useStyles();
 
    // redux dispatch
    const dispatch = useDispatch();
 
+   // Modal state
+   const [openModal, setOpenModal] = useState(false);
+   // Closing the modal
+   const handleCloseModal = () => {
+      setOpenModal(false);
+      window.location.pathname = "/my-profile/blogs";
+   };
+
+   // Opening the modal
+   const handleClickOpenModal = () => {
+      setOpenModal(true);
+   };
+
    //    Getting the current blog
+   const { id } = useParams();
    useEffect(() => {
-      dispatch(fetchClickedBLog(_id));
+      handleClickOpenModal(true);
+      dispatch(fetchClickedBLog(id));
    }, []);
 
-   const [title, setTitle] = useState();
-
-   const { currentBlog } = useSelector((state) => state.blog);
+   // Getting the blog title from redux > database
+   const [title, setTitle] = useState(
+      useSelector((state) => state.blog.currentBlog[0].title)
+   );
+   //    Gettin the blog body from redux > database
+   const [body, setBody] = useState(
+      useSelector((state) => state.blog.currentBlog[0].body)
+   );
 
    //React form hooks
    const { register, handleSubmit, watch, errors } = useForm({
@@ -62,14 +78,14 @@ export const MyProfileModal = ({
    });
 
    // Form on Submit
-   const onSubmit = (data) => {
-      data.user = logedInUser._id;
-      dispatch(postBlog(data, logedInUser.username));
-      setOpenModal(false);
-      setTimeout(() => {
-         window.location.reload();
-      }, 2000);
-   };
+   //    const onSubmit = (data) => {
+   //       data.user = logedInUser._id;
+   //       dispatch(postBlog(data, logedInUser.username));
+   //       setOpenModal(false);
+   //       setTimeout(() => {
+   //          window.location.reload();
+   //       }, 2000);
+   //    };
 
    return (
       <>
@@ -79,7 +95,7 @@ export const MyProfileModal = ({
             onClose={handleCloseModal}
             TransitionComponent={Transition}
          >
-            <form noValidate onSubmit={handleSubmit(onSubmit)}>
+            <form noValidate onSubmit={handleSubmit()}>
                <AppBar className={classes.appBar}>
                   <Toolbar>
                      <IconButton
@@ -91,7 +107,7 @@ export const MyProfileModal = ({
                         <CloseIcon />
                      </IconButton>
                      <Typography variant="h6" className={classes.title}>
-                        {`Hello ${logedInUser.username} 👋`}
+                        {/* {`Hello ${logedInUser.username} 👋`} */}
                      </Typography>
                      <Button autoFocus color="inherit" type="submit">
                         Save
@@ -115,6 +131,7 @@ export const MyProfileModal = ({
                      fullWidth
                      name="title"
                      inputRef={register}
+                     defaultValue={title}
                   />
                   {errors.title && (
                      <Typography variant="body2" color="secondary">
@@ -131,6 +148,7 @@ export const MyProfileModal = ({
                      fullWidth
                      name="body"
                      inputRef={register}
+                     defaultValue={body}
                   />
                   {errors.body && (
                      <Typography variant="body2" color="secondary">
@@ -140,7 +158,7 @@ export const MyProfileModal = ({
                </DialogContent>
             </form>
             <Typography variant="h6" className={classes.lastText}>
-               {`Have a nice day ${logedInUser.username}!! ⛄`}
+               {/* {`Have a nice day ${logedInUser.username}!! ⛄`} */}
             </Typography>
          </Dialog>
       </>

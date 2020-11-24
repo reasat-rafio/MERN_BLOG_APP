@@ -11,15 +11,12 @@ import {
    Button,
    Divider,
 } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { useStyles } from "./useStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLoggedInUserBlogs } from "../../redux/Actions/blogAction";
 import moment from "moment";
 import Dialog from "./Dialog/Dialog";
 import { useState } from "react";
-import { MyProfileModal } from "./MyProfileModal/MyProfileModal";
 
 const MyProfile = () => {
    const { user } = useSelector((state) => state.auth);
@@ -40,27 +37,15 @@ const MyProfile = () => {
       setOpen(true);
    };
 
-   // Modal state
-   const [openModal, setOpenModal] = useState(false);
-   // Closing the modal
-   const handleCloseModal = () => {
-      setOpenModal(false);
-   };
-
-   // Opening the modal
-   const handleClickOpenModal = () => {
-      setOpenModal(true);
-   };
-
    // Getting the current user from & redux & database
    const logedInUser = useSelector((state) => state.auth.user);
 
-   const editPost = () => {
-      setOpenModal(true);
+   const editPost = (id) => {
+      window.location.pathname = `/my-profile/blogs/edit/${id}`;
    };
 
    return (
-      <>
+      <div>
          <Grid container justify="center" alignItems="center" spacing={3}>
             <Grid
                justify="center"
@@ -148,7 +133,7 @@ const MyProfile = () => {
                                                    size="small"
                                                    variant="contained"
                                                    color="primary"
-                                                   onClick={editPost}
+                                                   onClick={() => editPost(_id)}
                                                 >
                                                    Edit
                                                 </Button>
@@ -173,15 +158,6 @@ const MyProfile = () => {
                                     setOpen={setOpen}
                                  />
                                  <Divider light />
-                                 {/* BLOG MODAL */}
-                                 <MyProfileModal
-                                    openModal={openModal}
-                                    handleCloseModal={handleCloseModal}
-                                    logedInUser={logedInUser}
-                                    handleClickOpenModal={handleClickOpenModal}
-                                    setOpenModal={setOpenModal}
-                                    _id={_id}
-                                 />
                               </React.Fragment>
                            )
                         )}
@@ -190,7 +166,7 @@ const MyProfile = () => {
                </Paper>
             </Grid>
          </Grid>
-      </>
+      </div>
    );
 };
 
