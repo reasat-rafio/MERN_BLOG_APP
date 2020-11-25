@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
    },
    paper: {
       paddingBottom: 50,
+      minHeight: "90vh",
    },
    list: {
       marginBottom: theme.spacing(2),

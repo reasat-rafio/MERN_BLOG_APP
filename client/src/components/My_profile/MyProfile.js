@@ -10,6 +10,7 @@ import {
    Typography,
    Button,
    Divider,
+   Fab,
 } from "@material-ui/core";
 import { useStyles } from "./useStyles";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +18,8 @@ import { fetchLoggedInUserBlogs } from "../../redux/Actions/blogAction";
 import moment from "moment";
 import Dialog from "./Dialog/Dialog";
 import { useState } from "react";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import HomeIcon from "@material-ui/icons/Home";
 
 const MyProfile = () => {
    const { user } = useSelector((state) => state.auth);
@@ -46,6 +49,11 @@ const MyProfile = () => {
       window.location.pathname = `/my-profile/blogs/edit/${id}`;
    };
 
+   // Going back to home
+   const backToHomeHandler = () => {
+      window.location.pathname = "/home";
+   };
+
    return (
       <div>
          <Grid container justify="center" alignItems="center" spacing={3}>
@@ -53,7 +61,7 @@ const MyProfile = () => {
                justify="center"
                alignItems="center"
                container
-               className={classes.x}
+               className={classes.root}
                item
                sm={4}
                xs={12}
@@ -85,7 +93,7 @@ const MyProfile = () => {
             </Grid>
 
             <Grid item xs={12} lg={8}>
-               <Paper square>
+               <Paper square className={classes.paper}>
                   <Typography
                      className={classes.text}
                      variant="h5"
@@ -169,6 +177,15 @@ const MyProfile = () => {
                   userId={user._id}
                   setOpen={setOpen}
                />
+               <Fab
+                  onClick={backToHomeHandler}
+                  className={classes.fab}
+                  size="small"
+                  aria-label="back"
+                  color="primary"
+               >
+                  <HomeIcon />
+               </Fab>
             </Grid>
          </Grid>
       </div>

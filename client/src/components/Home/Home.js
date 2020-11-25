@@ -27,6 +27,8 @@ import Loading from "../../utils/Loading";
 import moment from "moment";
 import { logoutUser } from "../../redux/Actions/authAction";
 import { BlogPostModal } from "./BlogPostModal/BlogPostModal";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 export default function Home() {
    const classes = useStyles();
@@ -80,10 +82,18 @@ export default function Home() {
       window.location.pathname = "/my-profile/blogs";
    };
 
+   // like
+   const [like, setLike] = useState(false);
+
    return (
       <React.Fragment>
          <CssBaseline />
-         <Grid container justify="center" alignItems="center">
+         <Grid
+            className={classes.body}
+            container
+            justify="center"
+            alignItems="center"
+         >
             <Grid item xs={12} lg={8}>
                <Typography className={classes.text} variant="h5" gutterBottom>
                   Daily Blog 📝
@@ -130,6 +140,43 @@ export default function Home() {
                                           >
                                              {body}
                                           </Typography>
+                                          <div
+                                             style={{
+                                                display: "flex",
+                                             }}
+                                          >
+                                             {like ? (
+                                                <FavoriteIcon
+                                                   onClick={() =>
+                                                      setLike(!like)
+                                                   }
+                                                   style={{
+                                                      marginLeft: "auto",
+                                                   }}
+                                                   color="primary"
+                                                   fontSize="default"
+                                                />
+                                             ) : (
+                                                <FavoriteBorderIcon
+                                                   onClick={() =>
+                                                      setLike(!like)
+                                                   }
+                                                   style={{
+                                                      marginLeft: "auto",
+                                                   }}
+                                                   color="primary"
+                                                   fontSize="default"
+                                                />
+                                             )}
+
+                                             <small
+                                                style={{
+                                                   margin: "auto 0 auto 10px",
+                                                }}
+                                             >
+                                                0
+                                             </small>
+                                          </div>
                                        </div>
                                     }
                                  />

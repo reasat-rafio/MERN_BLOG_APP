@@ -7,9 +7,16 @@ export const useStyles = makeStyles((theme) => ({
          margin: theme.spacing(1),
       },
       flexGrow: 1,
+      position: "relative",
    },
    paper: {
       paddingBottom: 50,
+      minHeight: "77vh",
+   },
+   fab: {
+      position: "absolute",
+      top: theme.spacing(2),
+      right: theme.spacing(2),
    },
    text: {
       padding: theme.spacing(2, 2, 2),
