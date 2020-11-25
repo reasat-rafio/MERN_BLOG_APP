@@ -11,7 +11,7 @@ import {
 const initalState = {
    blogs: [],
    userProfileBlogs: "",
-   currentBlog: "",
+   currentBlog: [],
 };
 
 export const blogReducer = (state = initalState, action) => {

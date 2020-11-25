@@ -17,8 +17,9 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { blogSchema } from "../../../utils/authSchema";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchClickedBLog, postBlog } from "../../../redux/Actions/blogAction";
+import { fetchClickedBLog } from "../../../redux/Actions/blogAction";
 import { useParams } from "react-router-dom";
+import Axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
    appBar: {
@@ -56,21 +57,39 @@ export const MyProfileModal = () => {
       setOpenModal(true);
    };
 
+   const [title, setTitle] = useState();
+   const [body, setBody] = useState();
+
+   console.log(title);
+   console.log(body);
+
    //    Getting the current blog
    const { id } = useParams();
    useEffect(() => {
-      handleClickOpenModal(true);
-      dispatch(fetchClickedBLog(id));
-   }, []);
+      async function fetch() {
+         try {
+            handleClickOpenModal(true);
+            const { data } = await Axios.get(
+               `http://localhost:5000/blogs/u/${id}`
+            );
+            if (data.success) {
+               setTitle(data.data[0].title);
+               setBody(data.data[0].body);
+            }
+         } catch (error) {
+            console.log(error);
+         }
+      }
+      // dispatch(fetchClickedBLog(id));
+      fetch();
+   }, [dispatch, id]);
 
-   // Getting the blog title from redux > database
-   const [title, setTitle] = useState(
-      useSelector((state) => state.blog.currentBlog[0].title)
-   );
-   //    Gettin the blog body from redux > database
-   const [body, setBody] = useState(
-      useSelector((state) => state.blog.currentBlog[0].body)
-   );
+   //    Getting the blog title from redux > database
+   // const title =
+   //    useSelector((state) => state.blog.currentBlog[0].title) || null;
+
+   // //    Gettin the blog body from redux > database
+   // const body = useSelector((state) => state.blog.currentBlog[0].body) || null;
 
    //React form hooks
    const { register, handleSubmit, watch, errors } = useForm({
@@ -131,7 +150,7 @@ export const MyProfileModal = () => {
                      fullWidth
                      name="title"
                      inputRef={register}
-                     defaultValue={title}
+                     defaultValue={title && title}
                   />
                   {errors.title && (
                      <Typography variant="body2" color="secondary">
@@ -148,7 +167,7 @@ export const MyProfileModal = () => {
                      fullWidth
                      name="body"
                      inputRef={register}
-                     defaultValue={body}
+                     defaultValue={body && body}
                   />
                   {errors.body && (
                      <Typography variant="body2" color="secondary">

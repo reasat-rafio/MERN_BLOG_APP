@@ -95,6 +95,7 @@ export const deleteBlog = (_id, userId) => async (dispatch) => {
 export const fetchClickedBLog = (_id) => async (dispatch) => {
    try {
       const { data } = await axios.get(`${url}/blogs/u/${_id}`);
+      console.log(data);
       if (data.success) {
          dispatch({
             type: FETCH_CLICKED_BLOGS,
