@@ -31,9 +31,11 @@ const MyProfile = () => {
 
    // Delete dialog popup state
    const [open, setOpen] = useState(false);
+   const [_id, set_ID] = useState();
 
    // Deleting blog
-   const deletePost = () => {
+   const deletePost = (id) => {
+      set_ID(id);
       setOpen(true);
    };
 
@@ -141,7 +143,9 @@ const MyProfile = () => {
                                                    size="small"
                                                    variant="contained"
                                                    color="secondary"
-                                                   onClick={deletePost}
+                                                   onClick={() =>
+                                                      deletePost(_id)
+                                                   }
                                                 >
                                                    Delete
                                                 </Button>
@@ -150,13 +154,7 @@ const MyProfile = () => {
                                        }
                                     />
                                  </ListItem>
-                                 {/* modal */}
-                                 <Dialog
-                                    _id={_id}
-                                    open={open}
-                                    userId={user._id}
-                                    setOpen={setOpen}
-                                 />
+
                                  <Divider light />
                               </React.Fragment>
                            )
@@ -164,6 +162,13 @@ const MyProfile = () => {
                      </List>
                   )}
                </Paper>
+               {/* modal */}
+               <Dialog
+                  _id={_id}
+                  open={open}
+                  userId={user._id}
+                  setOpen={setOpen}
+               />
             </Grid>
          </Grid>
       </div>

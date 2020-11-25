@@ -74,9 +74,7 @@ export const fetchLoggedInUserBlogs = (id) => async (dispathc) => {
 
 export const deleteBlog = (_id, userId) => async (dispatch) => {
    try {
-      const { data } = await axios.delete(`${url}/blogs/delete/${_id}`, {
-         data: { userId },
-      });
+      const { data } = await axios.delete(`${url}/blogs/delete/${_id}`);
 
       if (data.success) {
          dispatch({

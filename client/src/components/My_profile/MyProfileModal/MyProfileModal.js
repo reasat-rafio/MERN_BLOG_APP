@@ -17,7 +17,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { blogSchema } from "../../../utils/authSchema";
 import { useDispatch, useSelector } from "react-redux";
-import { editBlog, fetchClickedBLog } from "../../../redux/Actions/blogAction";
+import { editBlog } from "../../../redux/Actions/blogAction";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
 
@@ -101,12 +101,6 @@ export const MyProfileModal = () => {
       data.user = logedInUser._id;
       console.log(data);
       dispatch(editBlog(data, id));
-      // setOpenModal(false);
-      // window.location.pathname = "/my-profile/blogs";
-      // setOpenModal(false);
-      // setTimeout(() => {
-      //    window.location.reload();
-      // }, 2000);
    };
 
    return (

@@ -66,14 +66,12 @@ export const blogs_delete = async (req, res) => {
    try {
       // getting the id from request url
       const id = req.params.id;
-      const { data } = req.body;
-      console.log("data", req.body);
+
       // finding the blog
       const blog = await Blog.find({ _id: id });
 
       // if that blog dont exist
       if (!blog) {
-         console.log("eee");
          res.status(200).json({
             success: false,
             error: "Blog dont exist",
