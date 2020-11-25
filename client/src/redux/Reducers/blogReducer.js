@@ -6,6 +6,7 @@ import {
    POST_A_BLOG,
    FETCH_CLICKED_BLOGS,
    USER_POST_NULL,
+   EDIT_BLOG,
 } from "../types";
 
 const initalState = {
@@ -42,6 +43,13 @@ export const blogReducer = (state = initalState, action) => {
          return {
             ...state,
             currentBlog: [...action.payload],
+         };
+
+      case EDIT_BLOG:
+         return {
+            ...state,
+            blogs: [...action.payload.allBlogs],
+            userProfileBlogs: [...action.payload.userBlogs],
          };
 
       case DELETE_A_BLOG:

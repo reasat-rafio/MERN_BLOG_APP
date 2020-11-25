@@ -111,12 +111,32 @@ export const blogs_delete = async (req, res) => {
 //    @ROUTE   /blogs/edit/:id
 export const blogs_patch = async (req, res) => {
    // getting the id from request url
+   const { title, body, user } = req.body;
    const id = req.params.id;
    try {
-      // finding the blog
-      const blog = await Blog.findById(id);
+      // finding the blog and updating the title and body
+      const updateBlog = await Blog.update(
+         { _id: id },
+         {
+            $set: {
+               title,
+               body,
+            },
+         }
+      );
+
+      // const x = await Blog.findByIdAndUpdate();
+
+      // getting all blogs All blogs
+      const allBlogs = await Blog.find()
+         .sort({ createdAt: -1 })
+         .populate("user");
+
+      // Getting the users blogs
+      const userBlogs = await Blog.find({ user });
+
       // if that blog dont exist
-      if (!blog) {
+      if (!updateBlog) {
          // server response at success
          return res.status(404).json({
             success: false,
@@ -124,17 +144,13 @@ export const blogs_patch = async (req, res) => {
          });
       }
 
-      // Editing the blog from database
-      const updateBlog = await Blog.findByIdAndUpdate(
-         id,
-         { ...req.body, id },
-         { new: true }
-      );
-
       // server response at success
       res.status(201).json({
          success: true,
-         data: updateBlog,
+         data: {
+            allBlogs,
+            userBlogs,
+         },
       });
    } catch (error) {
       console.log(error);

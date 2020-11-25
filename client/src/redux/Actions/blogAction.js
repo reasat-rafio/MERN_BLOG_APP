@@ -8,6 +8,7 @@ import {
    FETCH_CLICKED_BLOGS,
    FETCH_CLICKED_BLOGS_FAILED,
    USER_POST_NULL,
+   EDIT_BLOG,
 } from "../types";
 import { setSnackbar } from "./snackbarAction";
 
@@ -95,7 +96,7 @@ export const deleteBlog = (_id, userId) => async (dispatch) => {
 export const fetchClickedBLog = (_id) => async (dispatch) => {
    try {
       const { data } = await axios.get(`${url}/blogs/u/${_id}`);
-      console.log(data);
+
       if (data.success) {
          dispatch({
             type: FETCH_CLICKED_BLOGS,
@@ -106,6 +107,22 @@ export const fetchClickedBLog = (_id) => async (dispatch) => {
          dispatch({
             type: FETCH_CLICKED_BLOGS_FAILED,
          });
+      }
+   } catch (error) {
+      console.log(error);
+   }
+};
+
+export const editBlog = (blog, id) => async (dispatch) => {
+   try {
+      const { data } = await axios.patch(`${url}/blogs/edit/${id}`, blog);
+      if (data.success) {
+         console.log(data.data);
+         dispatch({
+            type: EDIT_BLOG,
+            payload: data.data,
+         });
+         dispatch(setSnackbar(true, "success", "Your post is updated 😀"));
       }
    } catch (error) {
       console.log(error);

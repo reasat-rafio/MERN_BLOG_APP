@@ -17,7 +17,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { blogSchema } from "../../../utils/authSchema";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchClickedBLog } from "../../../redux/Actions/blogAction";
+import { editBlog, fetchClickedBLog } from "../../../redux/Actions/blogAction";
 import { useParams } from "react-router-dom";
 import Axios from "axios";
 
@@ -60,9 +60,6 @@ export const MyProfileModal = () => {
    const [title, setTitle] = useState();
    const [body, setBody] = useState();
 
-   console.log(title);
-   console.log(body);
-
    //    Getting the current blog
    const { id } = useParams();
    useEffect(() => {
@@ -84,6 +81,9 @@ export const MyProfileModal = () => {
       fetch();
    }, [dispatch, id]);
 
+   // Getting the current user from & redux & database
+   const logedInUser = useSelector((state) => state.auth.user);
+
    //    Getting the blog title from redux > database
    // const title =
    //    useSelector((state) => state.blog.currentBlog[0].title) || null;
@@ -97,14 +97,17 @@ export const MyProfileModal = () => {
    });
 
    // Form on Submit
-   //    const onSubmit = (data) => {
-   //       data.user = logedInUser._id;
-   //       dispatch(postBlog(data, logedInUser.username));
-   //       setOpenModal(false);
-   //       setTimeout(() => {
-   //          window.location.reload();
-   //       }, 2000);
-   //    };
+   const onSubmit = (data) => {
+      data.user = logedInUser._id;
+      console.log(data);
+      dispatch(editBlog(data, id));
+      // setOpenModal(false);
+      // window.location.pathname = "/my-profile/blogs";
+      // setOpenModal(false);
+      // setTimeout(() => {
+      //    window.location.reload();
+      // }, 2000);
+   };
 
    return (
       <>
@@ -114,7 +117,7 @@ export const MyProfileModal = () => {
             onClose={handleCloseModal}
             TransitionComponent={Transition}
          >
-            <form noValidate onSubmit={handleSubmit()}>
+            <form noValidate onSubmit={handleSubmit(onSubmit)}>
                <AppBar className={classes.appBar}>
                   <Toolbar>
                      <IconButton
@@ -126,7 +129,7 @@ export const MyProfileModal = () => {
                         <CloseIcon />
                      </IconButton>
                      <Typography variant="h6" className={classes.title}>
-                        {/* {`Hello ${logedInUser.username} 👋`} */}
+                        {`Hello ${logedInUser.username} 👋`}
                      </Typography>
                      <Button autoFocus color="inherit" type="submit">
                         Save
@@ -177,7 +180,7 @@ export const MyProfileModal = () => {
                </DialogContent>
             </form>
             <Typography variant="h6" className={classes.lastText}>
-               {/* {`Have a nice day ${logedInUser.username}!! ⛄`} */}
+               {`Have a nice day ${logedInUser.username}!! ⛄`}
             </Typography>
          </Dialog>
       </>
