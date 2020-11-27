@@ -22,6 +22,9 @@ const userSchema = mongoose.Schema(
          type: String,
          minlength: [3, "Password is too short"],
       },
+      likedPost: {
+         type: [String],
+      },
    },
    { timestamps: true }
 );

@@ -143,6 +143,9 @@ const MyProfile = () => {
                                                    size="small"
                                                    variant="contained"
                                                    color="primary"
+                                                   style={{
+                                                      marginRight: "10px",
+                                                   }}
                                                    onClick={() => editPost(_id)}
                                                 >
                                                    Edit
