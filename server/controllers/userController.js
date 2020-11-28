@@ -1,6 +1,6 @@
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
-import Blog from "../models/blogModel";
+import Blog from "../models/blogModel.js";
 
 // @DESC    register a new user
 // @METHOD  POST
@@ -103,7 +103,6 @@ export const likeBlog_post = async (req, res) => {
 
       // getting the user _id
       const { user_id } = req.body;
-      console.log(req.body);
 
       // updating the user
       await User.update(
@@ -119,24 +118,26 @@ export const likeBlog_post = async (req, res) => {
       const blog = await Blog.find({ _id: blogId });
 
       // Uploading the like count
-      const likeCount = await Blog.update(
+      await Blog.update(
          {
             _id: blogId,
          },
          {
             $set: {
-               likeCount: blog.likeCount + 1,
+               likeCount: blog[0].likeCount + 1,
             },
          }
       );
 
-      // getiing the user
+      // getiing the user and updated blog
       const user = await User.find({ _id: user_id });
-      const updatedBlog = await Blog.find({ _id: blogId });
+      const allBlogs = await Blog.find({})
+         .sort({ createdAt: -1 })
+         .populate("user");
 
       res.status(200).json({
          seccess: true,
-         data: { updatedBlog, user },
+         data: { blog: allBlogs, user },
       });
    } catch (error) {
       console.log(error);

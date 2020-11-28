@@ -22,7 +22,7 @@ import {
 } from "@material-ui/core";
 import useStyles from "./useStyles";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllBlogs } from "../../redux/Actions/blogAction";
+import { fetchAllBlogs, likePost } from "../../redux/Actions/blogAction";
 import Loading from "../../utils/Loading";
 import moment from "moment";
 import { logoutUser } from "../../redux/Actions/authAction";
@@ -53,12 +53,12 @@ export default function Home() {
    // const p = useSelector((state) => state.blog);
 
    // setting the blogs into a state
-   const [blogs, setBlogs] = useState(useSelector((state) => state.blog.blogs));
+   const blogs = useSelector((state) => state.blog.blogs);
 
    // Calling the dispatch action
    useEffect(() => {
       dispatch(fetchAllBlogs());
-   }, [dispatch, blogs]);
+   }, [dispatch, logedInUser]);
 
    // Logout the user
    const logOut = () => {
@@ -83,7 +83,16 @@ export default function Home() {
    };
 
    // like
-   const [like, setLike] = useState(false);
+   // const [like, setLike] = useState(false);
+   const { likedPost } = useSelector((state) => state.auth.user);
+
+   // Like action
+   const likeHandler = (id) => {};
+
+   // unlike action
+   const unlikeHandler = (id) => {
+      dispatch(likePost(logedInUser, id));
+   };
 
    return (
       <React.Fragment>
@@ -101,89 +110,103 @@ export default function Home() {
                {blogs && blogs.length ? (
                   <Paper square className={classes.paper}>
                      <List className={classes.list}>
-                        {blogs.map(({ _id, title, body, user, createdAt }) => (
-                           <React.Fragment key={_id}>
-                              {
-                                 <ListSubheader className={classes.subheader}>
-                                    {moment(createdAt).fromNow()}
-                                 </ListSubheader>
-                              }
-
-                              <ListItem button alignItems="flex-start">
-                                 <ListItemAvatar>
-                                    <Avatar
-                                       alt="Profile Picture"
-                                       src={user.picture}
+                        {blogs.map(
+                           ({
+                              _id,
+                              title,
+                              body,
+                              likeCount,
+                              user,
+                              createdAt,
+                           }) => (
+                              <React.Fragment key={_id}>
+                                 {
+                                    <ListSubheader
+                                       className={classes.subheader}
                                     >
-                                       {user.username.slice(0, 3)}
-                                    </Avatar>
-                                 </ListItemAvatar>
+                                       {moment(createdAt).fromNow()}
+                                    </ListSubheader>
+                                 }
 
-                                 <ListItemText
-                                    primary={
-                                       <>
-                                          <small>
-                                             {user.username} • {""}{" "}
-                                             {moment(createdAt)
-                                                .subtract(10, "days")
-                                                .calendar()}
-                                          </small>
-                                          <Typography>{title} </Typography>
-                                       </>
-                                    }
-                                    secondary={
-                                       <div>
-                                          <Typography
-                                             component="span"
-                                             variant="body2"
-                                             color="textPrimary"
-                                          >
-                                             {body}
-                                          </Typography>
-                                          <div
-                                             style={{
-                                                display: "flex",
-                                             }}
-                                          >
-                                             {like ? (
-                                                <FavoriteIcon
-                                                   onClick={() =>
-                                                      setLike(!like)
-                                                   }
-                                                   style={{
-                                                      marginLeft: "auto",
-                                                   }}
-                                                   color="primary"
-                                                   fontSize="default"
-                                                />
-                                             ) : (
-                                                <FavoriteBorderIcon
-                                                   onClick={() =>
-                                                      setLike(!like)
-                                                   }
-                                                   style={{
-                                                      marginLeft: "auto",
-                                                   }}
-                                                   color="primary"
-                                                   fontSize="default"
-                                                />
-                                             )}
+                                 <ListItem button alignItems="flex-start">
+                                    <ListItemAvatar>
+                                       <Avatar
+                                          alt="Profile Picture"
+                                          src={user.picture}
+                                       >
+                                          {user.username.slice(0, 3)}
+                                       </Avatar>
+                                    </ListItemAvatar>
 
-                                             <small
+                                    <ListItemText
+                                       primary={
+                                          <>
+                                             <small>
+                                                {user.username} • {""}{" "}
+                                                {moment(createdAt)
+                                                   .subtract(10, "days")
+                                                   .calendar()}
+                                             </small>
+                                             <Typography>{title} </Typography>
+                                          </>
+                                       }
+                                       secondary={
+                                          <div>
+                                             <Typography
+                                                component="span"
+                                                variant="body2"
+                                                color="textPrimary"
+                                             >
+                                                {body}
+                                             </Typography>
+                                             <div
                                                 style={{
-                                                   margin: "auto 0 auto 10px",
+                                                   display: "flex",
                                                 }}
                                              >
-                                                0
-                                             </small>
+                                                {likedPost.find(
+                                                   (lk) => lk === _id
+                                                ) ? (
+                                                   <FavoriteIcon
+                                                      onClick={() =>
+                                                         likeHandler(_id)
+                                                      }
+                                                      style={{
+                                                         marginLeft: "auto",
+                                                      }}
+                                                      color="primary"
+                                                      fontSize="default"
+                                                   />
+                                                ) : (
+                                                   <FavoriteBorderIcon
+                                                      onClick={() =>
+                                                         unlikeHandler(_id)
+                                                      }
+                                                      style={{
+                                                         marginLeft: "auto",
+                                                      }}
+                                                      color="primary"
+                                                      fontSize="default"
+                                                   />
+                                                )}
+
+                                                <small
+                                                   style={{
+                                                      margin:
+                                                         "auto 0 auto 10px",
+                                                   }}
+                                                >
+                                                   {likeCount}
+                                                </small>
+                                             </div>
                                           </div>
-                                       </div>
-                                    }
-                                 />
-                              </ListItem>
-                              <Divider light />
-                           </React.Fragment>
-                        ))}
+                                       }
+                                    />
+                                 </ListItem>
+                                 <Divider light />
+                              </React.Fragment>
+                           )
+                        )}
                      </List>
                   </Paper>
                ) : (

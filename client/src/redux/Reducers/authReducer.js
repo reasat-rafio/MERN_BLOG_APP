@@ -1,4 +1,4 @@
-import { CLEAR_USER, LOGOUT, REGISTER, SIGNIN } from "../types";
+import { CLEAR_USER, LIKE_POST, LOGOUT, REGISTER, SIGNIN } from "../types";
 
 export const authReducer = (state = {}, action) => {
    switch (action.type) {
@@ -17,6 +17,12 @@ export const authReducer = (state = {}, action) => {
          return {
             user: "",
             isLogedIn: false,
+         };
+
+      case LIKE_POST:
+         return {
+            ...state,
+            user: action.payload.user[0],
          };
 
       case CLEAR_USER:

@@ -30,7 +30,7 @@ const MyProfile = () => {
    // fetching the data on page load
    useEffect(() => {
       dispatch(fetchLoggedInUserBlogs(user._id));
-   }, []);
+   }, [dispatch, user]);
 
    // Delete dialog popup state
    const [open, setOpen] = useState(false);
@@ -41,9 +41,6 @@ const MyProfile = () => {
       set_ID(id);
       setOpen(true);
    };
-
-   // Getting the current user from & redux & database
-   const logedInUser = useSelector((state) => state.auth.user);
 
    const editPost = (id) => {
       window.location.pathname = `/my-profile/blogs/edit/${id}`;

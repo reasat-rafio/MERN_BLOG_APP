@@ -9,6 +9,7 @@ import {
    FETCH_CLICKED_BLOGS_FAILED,
    USER_POST_NULL,
    EDIT_BLOG,
+   LIKE_POST,
 } from "../types";
 import { setSnackbar } from "./snackbarAction";
 
@@ -123,6 +124,24 @@ export const editBlog = (blog, id) => async (dispatch) => {
          dispatch(setSnackbar(true, "success", "Your post is updated 😀"));
       }
    } catch (error) {
+      console.log(error);
+   }
+};
+
+export const likePost = (user_id, blogId) => async (dispatch) => {
+   try {
+      const { data } = await axios.post(`${url}/like/${blogId}`, { user_id });
+      const {
+         data: { blog, user },
+      } = data;
+      dispatch({
+         type: LIKE_POST,
+         payload: { blog, user },
+      });
+      console.log(blog);
+      console.log(user);
+   } catch (error) {
+      dispatch(setSnackbar(true, "error", `${error.message} ☹`));
       console.log(error);
    }
 };

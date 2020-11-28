@@ -57,9 +57,6 @@ export const BlogPostModal = ({
       data.user = logedInUser._id;
       dispatch(postBlog(data, logedInUser.username));
       setOpenModal(false);
-      setTimeout(() => {
-         window.location.reload();
-      }, 2000);
    };
 
    return (
