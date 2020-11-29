@@ -123,8 +123,6 @@ export const blogs_patch = async (req, res) => {
          }
       );
 
-      // const x = await Blog.findByIdAndUpdate();
-
       // getting all blogs All blogs
       const allBlogs = await Blog.find()
          .sort({ createdAt: -1 })
