@@ -31,13 +31,13 @@ function App() {
                   <Switch>
                      <Route exact path="/" component={SignUp} />
                      <Route path="/signin" component={SignIn} />
+                     <PrivateRouter path="/home">
+                        <Home />
+                     </PrivateRouter>
                      <Route
                         path="/my-profile/blogs/edit/:id"
                         component={MyProfileModal}
                      />
-                     <PrivateRouter path="/home">
-                        <Home />
-                     </PrivateRouter>
                      <PrivateRouter path="/my-profile/blogs">
                         <MyProfile />
                      </PrivateRouter>

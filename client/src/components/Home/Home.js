@@ -38,7 +38,6 @@ export default function Home() {
    const classes = useStyles();
    const [anchorEl, setAnchorEl] = React.useState(null);
    const open = Boolean(anchorEl);
-   const [auth, setAuth] = React.useState(true);
 
    const handleClose = () => {
       setAnchorEl(null);
