@@ -10,6 +10,7 @@ import {
    USER_POST_NULL,
    EDIT_BLOG,
    LIKE_POST,
+   DISLIKE_POST,
 } from "../types";
 import { setSnackbar } from "./snackbarAction";
 
@@ -136,6 +137,26 @@ export const likePost = (user_id, blogId) => async (dispatch) => {
       } = data;
       dispatch({
          type: LIKE_POST,
+         payload: { blog, user },
+      });
+      console.log(blog);
+      console.log(user);
+   } catch (error) {
+      dispatch(setSnackbar(true, "error", `${error.message} ☹`));
+      console.log(error);
+   }
+};
+
+export const dislikePost = (user_id, blogId) => async (dispatch) => {
+   try {
+      const { data } = await axios.post(`${url}/dislike/${blogId}`, {
+         user_id,
+      });
+      const {
+         data: { blog, user },
+      } = data;
+      dispatch({
+         type: DISLIKE_POST,
          payload: { blog, user },
       });
       console.log(blog);

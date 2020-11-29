@@ -1,4 +1,11 @@
-import { CLEAR_USER, LIKE_POST, LOGOUT, REGISTER, SIGNIN } from "../types";
+import {
+   CLEAR_USER,
+   LIKE_POST,
+   LOGOUT,
+   REGISTER,
+   SIGNIN,
+   DISLIKE_POST,
+} from "../types";
 
 export const authReducer = (state = {}, action) => {
    switch (action.type) {
@@ -20,6 +27,11 @@ export const authReducer = (state = {}, action) => {
          };
 
       case LIKE_POST:
+         return {
+            ...state,
+            user: action.payload.user[0],
+         };
+      case DISLIKE_POST:
          return {
             ...state,
             user: action.payload.user[0],

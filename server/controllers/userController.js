@@ -105,10 +105,65 @@ export const likeBlog_post = async (req, res) => {
       const { user_id } = req.body;
 
       // updating the user
-      await User.update(
+      await User.updateOne(
          { _id: user_id },
          {
             $addToSet: {
+               likedPost: blogId,
+            },
+         }
+      );
+
+      // getting the blog
+      const blog = await Blog.find({ _id: blogId });
+
+      // Uploading the like count
+      await Blog.updateOne(
+         {
+            _id: blogId,
+         },
+         {
+            $set: {
+               likeCount: blog[0].likeCount + 1,
+            },
+         }
+      );
+
+      // getiing the user and updated blog
+      const user = await User.find({ _id: user_id });
+      const allBlogs = await Blog.find({})
+         .sort({ createdAt: -1 })
+         .populate("user");
+
+      res.status(200).json({
+         seccess: true,
+         data: { blog: allBlogs, user },
+      });
+   } catch (error) {
+      console.log(error);
+      res.status(500).json({
+         seccess: false,
+         error: error.message,
+      });
+   }
+};
+
+//    @DESC    unliking a blog post
+//    @METHOD  POST
+//    @ROUTE   /dislike/:id
+export const dislikeBlog_post = async (req, res) => {
+   try {
+      // gettning the blog _id from params
+      const blogId = req.params.id;
+
+      // getting the user _id
+      const { user_id } = req.body;
+
+      // updating the user
+      await User.updateOne(
+         { _id: user_id },
+         {
+            $pull: {
                likedPost: blogId,
             },
          }
@@ -124,7 +179,7 @@ export const likeBlog_post = async (req, res) => {
          },
          {
             $set: {
-               likeCount: blog[0].likeCount + 1,
+               likeCount: blog[0].likeCount - 1,
             },
          }
       );

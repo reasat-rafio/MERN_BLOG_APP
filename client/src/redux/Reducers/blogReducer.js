@@ -8,6 +8,7 @@ import {
    USER_POST_NULL,
    EDIT_BLOG,
    LIKE_POST,
+   DISLIKE_POST,
 } from "../types";
 
 const initalState = {
@@ -54,6 +55,12 @@ export const blogReducer = (state = initalState, action) => {
          };
 
       case LIKE_POST:
+         return {
+            ...state,
+            blogs: [...action.payload.blog],
+         };
+
+      case DISLIKE_POST:
          return {
             ...state,
             blogs: [...action.payload.blog],

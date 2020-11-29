@@ -22,7 +22,11 @@ import {
 } from "@material-ui/core";
 import useStyles from "./useStyles";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllBlogs, likePost } from "../../redux/Actions/blogAction";
+import {
+   dislikePost,
+   fetchAllBlogs,
+   likePost,
+} from "../../redux/Actions/blogAction";
 import Loading from "../../utils/Loading";
 import moment from "moment";
 import { logoutUser } from "../../redux/Actions/authAction";
@@ -87,7 +91,9 @@ export default function Home() {
    const { likedPost } = useSelector((state) => state.auth.user);
 
    // Like action
-   const likeHandler = (id) => {};
+   const likeHandler = (id) => {
+      dispatch(dislikePost(logedInUser, id));
+   };
 
    // unlike action
    const unlikeHandler = (id) => {

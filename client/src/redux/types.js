@@ -15,3 +15,4 @@ export const CLEAR_SNACKBAR = "CLEAR_SNACKBAR";
 export const CLEAR_USER = "CLEAR_USER";
 export const CLEAR_BLOG = "CLEAR_BLOG";
 export const LIKE_POST = "LIKE_POST";
+export const DISLIKE_POST = "DISLIKE_POST";
