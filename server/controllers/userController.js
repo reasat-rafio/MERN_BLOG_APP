@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import Blog from "../models/blogModel.js";
+import cloudinary from "../utils/cloudinary.js";
 
 // @DESC    register a new user
 // @METHOD  POST
@@ -61,7 +62,7 @@ export const login_post = async (req, res) => {
 
       //user dont exit or password is wrong
       if (loginUser.error) {
-         res.status(201).json({
+         res.status(200).json({
             success: false,
             error: loginUser.error,
          });
@@ -84,7 +85,6 @@ export const logout_post = async (req, res) => {
       res.status(200).json({
          success: true,
       });
-      console.log(req.cookies.jwt);
    } catch (error) {
       res.status(500).json({
          success: false,
@@ -199,6 +199,49 @@ export const dislikeBlog_post = async (req, res) => {
       res.status(500).json({
          seccess: false,
          error: error.message,
+      });
+   }
+};
+
+//    @DESC    User Profile Picture Upload
+//    @METHOd  POST
+//    @ROUTE   /dp-upload/:id
+export const profilePictureUpload_post = async (req, res) => {
+   try {
+      // Getting the base64 image from the request
+      const { base64Image } = req.body;
+
+      // getting the user
+      const _id = req.params.id;
+
+      // uploading the image to cloudinary
+      const uploadResponse = await cloudinary.uploader.upload(base64Image, {
+         upload_preset: "blog_app",
+      });
+
+      console.log(uploadResponse);
+
+      // updating the user
+      await User.updateOne(
+         { _id },
+         {
+            $set: {
+               image: uploadResponse.url,
+            },
+         }
+      );
+      // getting the updated user
+      const updateUser = await User.find({ _id });
+
+      res.status(200).json({
+         success: true,
+         data: updateUser,
+      });
+   } catch (error) {
+      console.log(error);
+      res.status(500).json({
+         success: false,
+         error: "Server error",
       });
    }
 };

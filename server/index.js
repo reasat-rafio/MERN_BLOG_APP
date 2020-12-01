@@ -18,8 +18,8 @@ const app = express();
 app.use(cors());
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.use(express.json({ extended: true }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "50mb", extended: true }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // setting the routes
 app.use("/", authRouter);

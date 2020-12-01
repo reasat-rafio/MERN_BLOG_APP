@@ -42,5 +42,8 @@ export const useStyles = makeStyles((theme) => ({
    username: {
       fontWeight: "600",
    },
-   x: {},
+   uploadIcon: {
+      transform: "translate(-30px, 30px)",
+      cursor: "pointer",
+   },
 }));

@@ -1,5 +1,11 @@
 import axios from "axios";
-import { LOGOUT, REGISTER, REGISTER_FAILED, SIGNIN } from "../types";
+import {
+   LOGOUT,
+   REGISTER,
+   REGISTER_FAILED,
+   SIGNIN,
+   PROFILE_PICTURE_UPLOAD,
+} from "../types";
 import { setSnackbar } from "./snackbarAction";
 import { url } from "../../utils/url";
 
@@ -65,5 +71,25 @@ export const logoutUser = () => async (dispatch) => {
       window.location = "/signin";
    } catch (error) {
       dispatch(setSnackbar(true, "error", "Something went wrong"));
+   }
+};
+
+export const profilePictureUpload = (base64Image, user_id) => async (
+   dispatch
+) => {
+   try {
+      const { data } = await axios.post(`${url}/dp-upload/${user_id}`, {
+         base64Image,
+      });
+
+      if (data.success) {
+         console.log(data.data);
+         dispatch({
+            type: PROFILE_PICTURE_UPLOAD,
+            payload: data.data,
+         });
+      }
+   } catch (error) {
+      console.log(error);
    }
 };

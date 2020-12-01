@@ -136,11 +136,9 @@ export default function Home() {
                                  <ListItem button alignItems="flex-start">
                                     <ListItemAvatar>
                                        <Avatar
-                                          alt="Profile Picture"
-                                          src={user.picture}
-                                       >
-                                          {user.username.slice(0, 3)}
-                                       </Avatar>
+                                          alt={user.username.slice(0, 3)}
+                                          src={user.image}
+                                       ></Avatar>
                                     </ListItemAvatar>
 
                                     <ListItemText

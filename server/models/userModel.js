@@ -25,6 +25,9 @@ const userSchema = mongoose.Schema(
       likedPost: {
          type: [String],
       },
+      image: {
+         type: String,
+      },
    },
    { timestamps: true }
 );

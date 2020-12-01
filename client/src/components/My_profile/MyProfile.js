@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
    Avatar,
    Grid,
@@ -18,8 +18,10 @@ import { fetchLoggedInUserBlogs } from "../../redux/Actions/blogAction";
 import moment from "moment";
 import Dialog from "./Dialog/Dialog";
 import { useState } from "react";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import AddCircleOutlinedIcon from "@material-ui/icons/AddCircleOutlined";
 import HomeIcon from "@material-ui/icons/Home";
+import CloudUploadRoundedIcon from "@material-ui/icons/CloudUploadRounded";
+import { profilePictureUpload } from "../../redux/Actions/authAction";
 
 const MyProfile = () => {
    const { user } = useSelector((state) => state.auth);
@@ -51,6 +53,32 @@ const MyProfile = () => {
       window.location.pathname = "/home";
    };
 
+   //
+   const fileInputRef = useRef();
+
+   // triggering the input type file
+   const btnHandler = (e) => {
+      e.preventDefault();
+      fileInputRef.current.click();
+   };
+
+   // Image preview
+   const [image, setImage] = useState();
+   const inputHandler = (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+         setImage(reader.result);
+      };
+   };
+
+   // Img uploader
+   const imgUploadHandler = () => {
+      dispatch(profilePictureUpload(image, user._id));
+      setImage(false);
+   };
+
    return (
       <div>
          <Grid container justify="center" alignItems="center" spacing={3}>
@@ -63,14 +91,47 @@ const MyProfile = () => {
                sm={4}
                xs={12}
             >
-               <Avatar
-                  className={classes.large}
-                  alt="Profile Picture"
-                  src="/static/images/avatar/1.jpg"
-               >
-                  {user.firstName}
-               </Avatar>
+               {image ? (
+                  <Avatar
+                     className={classes.large}
+                     alt="Profile Picture"
+                     src={image}
+                  ></Avatar>
+               ) : (
+                  <Avatar
+                     className={classes.large}
+                     alt={user.firstName}
+                     src={user.image}
+                  ></Avatar>
+               )}
+
+               <form>
+                  {image ? (
+                     <CloudUploadRoundedIcon
+                        className={classes.uploadIcon}
+                        color="primary"
+                        fontSize="large"
+                        onClick={imgUploadHandler}
+                     />
+                  ) : (
+                     <AddCircleOutlinedIcon
+                        onClick={btnHandler}
+                        className={classes.uploadIcon}
+                        color="primary"
+                        fontSize="large"
+                     />
+                  )}
+
+                  <input
+                     type="file"
+                     style={{ display: "none" }}
+                     ref={fileInputRef}
+                     accept=".jpeg, .png, .jpg"
+                     onChange={inputHandler}
+                  />
+               </form>
             </Grid>
+            {/* //////////////////////////// */}
             <Grid
                container
                justify="center"
