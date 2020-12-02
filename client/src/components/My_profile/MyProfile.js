@@ -1,32 +1,48 @@
-import React, { useEffect, useRef } from "react";
-import {
-   Avatar,
-   Grid,
-   List,
-   ListItemText,
-   ListSubheader,
-   ListItem,
-   Paper,
-   Typography,
-   Button,
-   Divider,
-   Fab,
-} from "@material-ui/core";
+import React, { useEffect, useRef, useState } from "react";
+import { Avatar, Grid, Typography, Fab, Tab, Box } from "@material-ui/core";
 import { useStyles } from "./useStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLoggedInUserBlogs } from "../../redux/Actions/blogAction";
-import moment from "moment";
-import Dialog from "./Dialog/Dialog";
-import { useState } from "react";
 import AddCircleOutlinedIcon from "@material-ui/icons/AddCircleOutlined";
 import HomeIcon from "@material-ui/icons/Home";
 import CloudUploadRoundedIcon from "@material-ui/icons/CloudUploadRounded";
 import { profilePictureUpload } from "../../redux/Actions/authAction";
+import UserBlogs from "./UserBlogs/UserBlogs";
+import FullWidthTabs from "./BottomNav/FullWidthTabs";
+import { useTheme } from "@material-ui/core/styles";
+import SwipeableViews from "react-swipeable-views";
+import PropTypes from "prop-types";
+import LikedBlogs from "./LikedBlogs/LikedBlogs";
+
+function TabPanel(props) {
+   const { children, value, index, ...other } = props;
+   return (
+      <div
+         role="tabpanel"
+         hidden={value !== index}
+         id={`full-width-tabpanel-${index}`}
+         aria-labelledby={`full-width-tab-${index}`}
+         {...other}
+      >
+         {value === index && (
+            <Box p={3}>
+               <Typography>{children}</Typography>
+            </Box>
+         )}
+      </div>
+   );
+}
+
+TabPanel.propTypes = {
+   children: PropTypes.node,
+   index: PropTypes.any.isRequired,
+   value: PropTypes.any.isRequired,
+};
 
 const MyProfile = () => {
    const { user } = useSelector((state) => state.auth);
-   const { userProfileBlogs } = useSelector((state) => state.blog);
 
+   const theme = useTheme();
    const classes = useStyles();
    const dispatch = useDispatch();
 
@@ -34,20 +50,6 @@ const MyProfile = () => {
    useEffect(() => {
       dispatch(fetchLoggedInUserBlogs(user._id));
    }, [dispatch, user]);
-
-   // Delete dialog popup state
-   const [open, setOpen] = useState(false);
-   const [_id, set_ID] = useState();
-
-   // Deleting blog
-   const deletePost = (id) => {
-      set_ID(id);
-      setOpen(true);
-   };
-
-   const editPost = (id) => {
-      window.location.pathname = `/my-profile/blogs/edit/${id}`;
-   };
 
    // Going back to home
    const backToHomeHandler = () => {
@@ -78,6 +80,17 @@ const MyProfile = () => {
    const imgUploadHandler = () => {
       dispatch(profilePictureUpload(image, user._id));
       setImage(false);
+   };
+
+   // bottom nav values
+   const [value, setValue] = useState(0);
+
+   const handleChange = (event, newValue) => {
+      setValue(newValue);
+   };
+
+   const handleChangeIndex = (index) => {
+      setValue(index);
    };
 
    return (
@@ -132,7 +145,6 @@ const MyProfile = () => {
                   />
                </form>
             </Grid>
-            {/* //////////////////////////// */}
             <Grid
                container
                justify="center"
@@ -151,94 +163,20 @@ const MyProfile = () => {
                </Typography>
             </Grid>
 
-            <Grid item xs={12} lg={8}>
-               <Paper square className={classes.paper}>
-                  <Typography
-                     className={classes.text}
-                     variant="h5"
-                     gutterBottom
-                  >
-                     Your Blogs
-                  </Typography>
-                  {userProfileBlogs === null && (
-                     <Typography className={classes.text}>
-                        You havent post anything yet!
-                     </Typography>
-                  )}
-                  {userProfileBlogs && userProfileBlogs.length && (
-                     <List className={classes.list}>
-                        {userProfileBlogs.map(
-                           ({ _id, title, body, createdAt, username }) => (
-                              <React.Fragment key={_id}>
-                                 {
-                                    <ListSubheader
-                                       className={classes.subheader}
-                                    >
-                                       {moment(createdAt).fromNow()}
-                                    </ListSubheader>
-                                 }
+            <Grid item xs={12} lg={8} className={classes.paper}>
+               <SwipeableViews
+                  axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+                  index={value}
+                  onChangeIndex={handleChangeIndex}
+               >
+                  <TabPanel value={value} index={0} dir={theme.direction}>
+                     <UserBlogs />
+                  </TabPanel>
+                  <TabPanel value={value} index={1} dir={theme.direction}>
+                     <LikedBlogs />
+                  </TabPanel>
+               </SwipeableViews>
 
-                                 <ListItem button alignItems="flex-start">
-                                    <ListItemText
-                                       primary={title}
-                                       secondary={
-                                          <div>
-                                             <Typography>{body}</Typography>
-                                             <div
-                                                style={{
-                                                   background: "#5d5d5a3a",
-                                                }}
-                                             >
-                                                {/* <IconButton
-                                                   color="primary"
-                                                   aria-label="delete"
-                                                >
-                                                   <DeleteIcon
-                                                      color="secondary"
-                                                      fontSize="small"
-                                                   />
-                                                </IconButton> */}
-                                                <Button
-                                                   size="small"
-                                                   variant="contained"
-                                                   color="primary"
-                                                   style={{
-                                                      marginRight: "10px",
-                                                   }}
-                                                   onClick={() => editPost(_id)}
-                                                >
-                                                   Edit
-                                                </Button>
-                                                <Button
-                                                   size="small"
-                                                   variant="contained"
-                                                   color="secondary"
-                                                   onClick={() =>
-                                                      deletePost(_id)
-                                                   }
-                                                >
-                                                   Delete
-                                                </Button>
-                                             </div>
-                                          </div>
-                                       }
-                                    />
-                                 </ListItem>
-
-                                 <Divider light />
-                              </React.Fragment>
-                           )
-                        )}
-                     </List>
-                  )}
-               </Paper>
-               {/* modal */}
-               <Dialog
-                  _id={_id}
-                  open={open}
-                  userId={user._id}
-                  setOpen={setOpen}
-               />
                <Fab
                   onClick={backToHomeHandler}
                   className={classes.fab}
@@ -250,6 +188,17 @@ const MyProfile = () => {
                </Fab>
             </Grid>
          </Grid>
+         {/* <ButtomNav
+            value={value}
+            setValue={setValue}
+            handleChange={handleChange}
+         /> */}
+         <FullWidthTabs
+            value={value}
+            setValue={setValue}
+            handleChange={handleChange}
+            handleChangeIndex={handleChangeIndex}
+         />
       </div>
    );
 };
