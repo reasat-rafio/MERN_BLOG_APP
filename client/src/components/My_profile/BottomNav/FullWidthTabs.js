@@ -1,14 +1,11 @@
 import React from "react";
-
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import { Grid } from "@material-ui/core";
+import SettingsApplicationsSharpIcon from "@material-ui/icons/SettingsApplicationsSharp";
 
 function a11yProps(index) {
    return {
@@ -47,6 +44,11 @@ export default function FullWidthTabs({ value, handleChange }) {
                   {" "}
                </Tab>
                <Tab label="Liked" icon={<FavoriteIcon />} {...a11yProps(1)} />
+               <Tab
+                  label="Settings"
+                  icon={<SettingsApplicationsSharpIcon />}
+                  {...a11yProps(3)}
+               />
             </Tabs>
          </AppBar>
       </>
