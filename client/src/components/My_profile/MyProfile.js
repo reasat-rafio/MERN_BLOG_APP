@@ -26,6 +26,7 @@ import { profilePictureUpload } from "../../redux/Actions/authAction";
 const MyProfile = () => {
    const { user } = useSelector((state) => state.auth);
    const { userProfileBlogs } = useSelector((state) => state.blog);
+
    const classes = useStyles();
    const dispatch = useDispatch();
 

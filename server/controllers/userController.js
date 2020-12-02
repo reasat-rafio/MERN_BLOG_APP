@@ -123,8 +123,8 @@ export const likeBlog_post = async (req, res) => {
             _id: blogId,
          },
          {
-            $set: {
-               likeCount: blog[0].likeCount + 1,
+            $inc: {
+               likeCount: +1,
             },
          }
       );
@@ -173,13 +173,13 @@ export const dislikeBlog_post = async (req, res) => {
       const blog = await Blog.find({ _id: blogId });
 
       // Uploading the like count
-      await Blog.update(
+      await Blog.updateOne(
          {
             _id: blogId,
          },
          {
-            $set: {
-               likeCount: blog[0].likeCount - 1,
+            $inc: {
+               likeCount: -1,
             },
          }
       );
