@@ -9,6 +9,7 @@ import {
    EDIT_BLOG,
    LIKE_POST,
    DISLIKE_POST,
+   FETCH_LIKED_BLOGS,
 } from "../types";
 
 const initalState = {
@@ -23,6 +24,12 @@ export const blogReducer = (state = initalState, action) => {
          return {
             ...state,
             blogs: [...action.payload],
+         };
+
+      case FETCH_LIKED_BLOGS:
+         return {
+            ...state,
+            likedBlogs: [...action.payload],
          };
 
       case POST_A_BLOG:

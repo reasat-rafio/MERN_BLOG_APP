@@ -11,6 +11,7 @@ import {
    EDIT_BLOG,
    LIKE_POST,
    DISLIKE_POST,
+   FETCH_LIKED_BLOGS,
 } from "../types";
 import { setSnackbar } from "./snackbarAction";
 
@@ -163,6 +164,20 @@ export const dislikePost = (user_id, blogId) => async (dispatch) => {
       console.log(user);
    } catch (error) {
       dispatch(setSnackbar(true, "error", `${error.message} ☹`));
+      console.log(error);
+   }
+};
+
+export const fetchLikedBlogs = (id) => async (dispatch) => {
+   try {
+      const { data } = await axios.get(`${url}/blogs/${id}/likedpost`);
+      if (data.success) {
+         dispatch({
+            type: FETCH_LIKED_BLOGS,
+            payload: data[0].likedPost,
+         });
+      }
+   } catch (error) {
       console.log(error);
    }
 };

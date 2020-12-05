@@ -20,6 +20,7 @@ import {
    Grid,
    Divider,
 } from "@material-ui/core";
+
 import useStyles from "./useStyles";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -34,6 +35,7 @@ import { BlogPostModal } from "./BlogPostModal/BlogPostModal";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
+import Drawer from "./Drawer/Drawer";
 export default function Home() {
    const classes = useStyles();
    const [anchorEl, setAnchorEl] = React.useState(null);
@@ -98,6 +100,9 @@ export default function Home() {
    const unlikeHandler = (id) => {
       dispatch(likePost(logedInUser, id));
    };
+
+   // handling the drawer
+   const [openDrawer, setOpenDrawer] = useState(false);
 
    return (
       <React.Fragment>
@@ -222,6 +227,14 @@ export default function Home() {
                   className={classes.appBar}
                >
                   <Toolbar>
+                     <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={() => setOpenDrawer((prev) => !prev)}
+                     >
+                        <Drawer />
+                     </IconButton>
                      <Fab
                         onClick={handleClickOpenModal}
                         color="secondary"
@@ -257,11 +270,12 @@ export default function Home() {
                         open={open}
                         onClose={handleClose}
                      >
-                        <MenuItem onClick={myProfile}>My account</MenuItem>
+                        {/* <MenuItem onClick={myProfile}>My account</MenuItem> */}
                         <MenuItem onClick={logOut}>Logout</MenuItem>
                      </Menu>
                   </Toolbar>
                </AppBar>
+
                <BlogPostModal
                   openModal={openModal}
                   handleCloseModal={handleCloseModal}

@@ -188,11 +188,7 @@ const MyProfile = () => {
                </Fab>
             </Grid>
          </Grid>
-         {/* <ButtomNav
-            value={value}
-            setValue={setValue}
-            handleChange={handleChange}
-         /> */}
+
          <FullWidthTabs
             value={value}
             setValue={setValue}

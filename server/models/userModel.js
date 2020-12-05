@@ -22,10 +22,7 @@ const userSchema = mongoose.Schema(
          type: String,
          minlength: [3, "Password is too short"],
       },
-      likedPost: {
-         type: [mongoose.Schema.Types.ObjectId],
-         ref: "Blog",
-      },
+      likedPost: [{ type: [mongoose.Schema.Types.ObjectId], ref: "Blog" }],
       image: {
          type: String,
       },

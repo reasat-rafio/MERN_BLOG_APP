@@ -1,4 +1,5 @@
 import Blog from "../models/blogModel.js";
+import User from "../models/userModel.js";
 
 // @DESC    get all the blogs
 // @METHOD  GET
@@ -208,6 +209,33 @@ export const userProfileClickedBlog_get = async (req, res) => {
             data: "No blog found",
          });
       }
+   } catch (error) {
+      console.log(error);
+      res.status(500).json({
+         success: false,
+         error: error.message,
+      });
+   }
+};
+
+//    @DESC     getting the all the blogs that user liked
+//    @METHOD   GET
+//    @ROUTE    /blogs/:id/likedpost
+export const userLiedPost_get = async (req, res) => {
+   try {
+      const { id } = req.params;
+
+      const likedPost = await User.find({ _id: id }).populate("likedPost");
+
+      const x = user[0].likedPost.forEach(async (u) => {
+         console.log(u);
+         return await User.find({ _id: id }).sort({ createdAt: -1 });
+      });
+
+      res.status(200).json({
+         success: true,
+         data: likedPost,
+      });
    } catch (error) {
       console.log(error);
       res.status(500).json({
