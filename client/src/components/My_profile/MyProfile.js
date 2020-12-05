@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Grid, Typography, Fab, Tab, Box } from "@material-ui/core";
 import { useStyles } from "./useStyles";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchLoggedInUserBlogs } from "../../redux/Actions/blogAction";
+import {
+   fetchLikedBlogs,
+   fetchLoggedInUserBlogs,
+} from "../../redux/Actions/blogAction";
 import AddCircleOutlinedIcon from "@material-ui/icons/AddCircleOutlined";
 import HomeIcon from "@material-ui/icons/Home";
 import CloudUploadRoundedIcon from "@material-ui/icons/CloudUploadRounded";
@@ -49,6 +52,7 @@ const MyProfile = () => {
    // fetching the data on page load
    useEffect(() => {
       dispatch(fetchLoggedInUserBlogs(user._id));
+      dispatch(fetchLikedBlogs(user._id));
    }, [dispatch, user]);
 
    // Going back to home

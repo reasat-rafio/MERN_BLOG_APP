@@ -1,5 +1,4 @@
 import {
-   Button,
    Divider,
    List,
    ListItem,
@@ -32,7 +31,7 @@ const LikedBlogs = () => {
             {likedBlogs && likedBlogs.length && (
                <List className={classes.list}>
                   {likedBlogs.map(
-                     ({ _id, title, body, createdAt, username }) => (
+                     ({ _id, title, body, createdAt, username, user }) => (
                         <React.Fragment key={_id}>
                            {
                               <ListSubheader className={classes.subheader}>
@@ -45,7 +44,7 @@ const LikedBlogs = () => {
                                  primary={
                                     <>
                                        <small>
-                                          {"user.username"} • {""}{" "}
+                                          {user.username} •{" "}
                                           {moment(createdAt)
                                              .subtract(10, "days")
                                              .calendar()}

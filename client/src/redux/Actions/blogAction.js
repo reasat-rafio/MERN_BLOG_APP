@@ -160,8 +160,6 @@ export const dislikePost = (user_id, blogId) => async (dispatch) => {
          type: DISLIKE_POST,
          payload: { blog, user },
       });
-      console.log(blog);
-      console.log(user);
    } catch (error) {
       dispatch(setSnackbar(true, "error", `${error.message} ☹`));
       console.log(error);
@@ -174,7 +172,7 @@ export const fetchLikedBlogs = (id) => async (dispatch) => {
       if (data.success) {
          dispatch({
             type: FETCH_LIKED_BLOGS,
-            payload: data[0].likedPost,
+            payload: data.data[0].likedPost,
          });
       }
    } catch (error) {
