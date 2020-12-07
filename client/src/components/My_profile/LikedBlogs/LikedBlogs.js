@@ -1,27 +1,41 @@
 import {
+   Avatar,
    Divider,
+   Grid,
+   IconButton,
    List,
    ListItem,
+   ListItemAvatar,
    ListItemText,
-   ListSubheader,
    Paper,
    Typography,
 } from "@material-ui/core";
 import React from "react";
 import { useStyles } from "../useStyles";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
-const LikedBlogs = () => {
+import { dislikePost } from "../../../redux/Actions/blogAction";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+
+const LikedBlogs = ({ id }) => {
    const classes = useStyles();
 
+   // Getting the blogs from database
    const { likedBlogs } = useSelector((state) => state.blog);
+
+   const dispatch = useDispatch();
+
+   // Remove like
+   const removeLikeHandler = (blogId) => {
+      dispatch(dislikePost(id, blogId));
+   };
 
    return (
       <div>
          <Paper square>
             <Typography className={classes.text} variant="h5" gutterBottom>
-               Post Have liked
+               Post You Have Liked
             </Typography>
             {likedBlogs === null && (
                <Typography className={classes.text}>
@@ -29,47 +43,75 @@ const LikedBlogs = () => {
                </Typography>
             )}
             {likedBlogs && likedBlogs.length && (
-               <List className={classes.list}>
-                  {likedBlogs.map(
-                     ({ _id, title, body, createdAt, username, user }) => (
-                        <React.Fragment key={_id}>
-                           {
-                              <ListSubheader className={classes.subheader}>
-                                 {moment(createdAt).fromNow()}
-                              </ListSubheader>
-                           }
+               <Paper>
+                  <List className={classes.list}>
+                     {likedBlogs.map(
+                        ({ _id, title, body, createdAt, user }) => (
+                           <React.Fragment key={_id}>
+                              <ListItem button alignItems="flex-start">
+                                 <ListItemAvatar>
+                                    <Avatar
+                                       alt={user.username.slice(0, 3)}
+                                       src={user.image}
+                                    ></Avatar>
+                                 </ListItemAvatar>
 
-                           <ListItem button alignItems="flex-start">
-                              <ListItemText
-                                 primary={
-                                    <>
-                                       <small>
-                                          {user.username} •{" "}
-                                          {moment(createdAt)
-                                             .subtract(10, "days")
-                                             .calendar()}
-                                       </small>
-                                       <Typography>{title} </Typography>
-                                    </>
-                                 }
-                                 secondary={
-                                    <div>
-                                       <Typography>{body}</Typography>
-                                       <div
+                                 <ListItemText
+                                    primary={
+                                       <>
+                                          <small>
+                                             {user.username} •{" "}
+                                             {moment(createdAt)
+                                                .subtract(10, "days")
+                                                .calendar()}
+                                          </small>
+                                          <Typography>{title} </Typography>
+                                       </>
+                                    }
+                                    secondary={
+                                       <Grid
+                                          container
                                           style={{
-                                             background: "#5d5d5a3a",
+                                             display: "flex",
                                           }}
-                                       ></div>
-                                    </div>
-                                 }
-                              />
-                           </ListItem>
+                                       >
+                                          <Typography
+                                             component="span"
+                                             variant="body2"
+                                             color="textPrimary"
+                                          >
+                                             {body}
+                                          </Typography>
+                                          <div
+                                             style={{
+                                                marginLeft: "auto",
+                                             }}
+                                          >
+                                             <IconButton
+                                                className={classes.icon}
+                                                edge="end"
+                                                color="inherit"
+                                                aria-label="account of current user"
+                                                aria-controls="menu-appbar"
+                                                aria-haspopup="true"
+                                                onClick={() =>
+                                                   removeLikeHandler(_id)
+                                                }
+                                             >
+                                                <DeleteForeverIcon color="secondary" />
+                                             </IconButton>
+                                          </div>
+                                       </Grid>
+                                    }
+                                 />
+                              </ListItem>
 
-                           <Divider light />
-                        </React.Fragment>
-                     )
-                  )}
-               </List>
+                              <Divider light />
+                           </React.Fragment>
+                        )
+                     )}
+                  </List>
+               </Paper>
             )}
          </Paper>
       </div>

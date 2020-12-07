@@ -1,6 +1,8 @@
 import {
    Button,
    Divider,
+   Grid,
+   IconButton,
    List,
    ListItem,
    ListItemText,
@@ -8,6 +10,8 @@ import {
    Paper,
    Typography,
 } from "@material-ui/core";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import EditIcon from "@material-ui/icons/Edit";
 import Dialog from "../Dialog/Dialog";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -58,37 +62,33 @@ const UserBlogs = () => {
 
                            <ListItem button alignItems="flex-start">
                               <ListItemText
-                                 primary={title}
-                                 secondary={
-                                    <div>
-                                       <Typography>{body}</Typography>
-                                       <div
-                                          style={{
-                                             background: "#5d5d5a3a",
-                                          }}
-                                       >
-                                          <Button
-                                             size="small"
-                                             variant="contained"
-                                             color="primary"
-                                             style={{
-                                                marginRight: "10px",
-                                             }}
-                                             onClick={() => editPost(_id)}
-                                          >
-                                             Edit
-                                          </Button>
-                                          <Button
-                                             size="small"
-                                             variant="contained"
-                                             color="secondary"
-                                             onClick={() => deletePost(_id)}
-                                          >
-                                             Delete
-                                          </Button>
-                                       </div>
-                                    </div>
+                                 primary={
+                                    <Grid container>
+                                       <Grid item lg={10} xs={8}>
+                                          {title}
+                                       </Grid>
+                                       <Grid item lg={2} xs={4}>
+                                          <IconButton>
+                                             <EditIcon
+                                                size="small"
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={() => editPost(_id)}
+                                             />
+                                          </IconButton>
+
+                                          <IconButton>
+                                             <DeleteForeverIcon
+                                                size="small"
+                                                variant="contained"
+                                                color="secondary"
+                                                onClick={() => deletePost(_id)}
+                                             />
+                                          </IconButton>
+                                       </Grid>
+                                    </Grid>
                                  }
+                                 secondary={<Typography>{body}</Typography>}
                               />
                            </ListItem>
 

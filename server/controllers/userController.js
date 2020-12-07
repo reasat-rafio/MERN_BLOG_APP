@@ -160,7 +160,7 @@ export const dislikeBlog_post = async (req, res) => {
       const { user_id } = req.body;
 
       // updating the user
-      await User.updateOne(
+      const x = await User.updateOne(
          { _id: user_id },
          {
             $pull: {
@@ -170,7 +170,14 @@ export const dislikeBlog_post = async (req, res) => {
       );
 
       // getting the blog
-      const blog = await Blog.find({ _id: blogId });
+      // const blog = await Blog.find({ _id: blogId });
+
+      // Getting the liked blogs
+      const likedBlog = await User.find({ _id: user_id }).populate({
+         path: "likedPost",
+         options: { sort: { createdAt: -1 } },
+         populate: { path: "user" },
+      });
 
       // Uploading the like count
       await Blog.updateOne(
@@ -192,7 +199,7 @@ export const dislikeBlog_post = async (req, res) => {
 
       res.status(200).json({
          seccess: true,
-         data: { blog: allBlogs, user },
+         data: { blog: allBlogs, user, likedBlog },
       });
    } catch (error) {
       console.log(error);

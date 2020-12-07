@@ -177,7 +177,7 @@ const MyProfile = () => {
                      <UserBlogs />
                   </TabPanel>
                   <TabPanel value={value} index={1} dir={theme.direction}>
-                     <LikedBlogs />
+                     <LikedBlogs id={user._id} />
                   </TabPanel>
                </SwipeableViews>
 

@@ -38,7 +38,9 @@ export const useStyles = makeStyles((theme) => ({
       height: theme.spacing(17),
       marginTop: "10px",
    },
-
+   icon: {
+      justifyContent: "center",
+   },
    username: {
       fontWeight: "600",
    },

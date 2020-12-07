@@ -68,9 +68,11 @@ export const blogReducer = (state = initalState, action) => {
          };
 
       case DISLIKE_POST:
+         console.log(action.payload.likedBlog);
          return {
             ...state,
             blogs: [...action.payload.blog],
+            // likedBlogs: [...action.payload.likedBlog],
          };
 
       case DELETE_A_BLOG:

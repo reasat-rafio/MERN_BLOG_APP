@@ -154,11 +154,12 @@ export const dislikePost = (user_id, blogId) => async (dispatch) => {
          user_id,
       });
       const {
-         data: { blog, user },
+         data: { blog, user, likedBlog },
       } = data;
+      console.log(likedBlog);
       dispatch({
          type: DISLIKE_POST,
-         payload: { blog, user },
+         payload: { blog, user, likedBlog },
       });
    } catch (error) {
       dispatch(setSnackbar(true, "error", `${error.message} ☹`));

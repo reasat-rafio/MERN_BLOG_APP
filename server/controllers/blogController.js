@@ -225,8 +225,11 @@ export const userLiedPost_get = async (req, res) => {
    try {
       const { id } = req.params;
 
-      const likedPost = await User.find({ _id: id })
-      .populate({ path: "likedPost", populate: { path: "user" } });
+      const likedPost = await User.find({ _id: id }).populate({
+         path: "likedPost",
+         options: { sort: { createdAt: -1 } },
+         populate: { path: "user" },
+      });
 
       res.status(200).json({
          success: true,

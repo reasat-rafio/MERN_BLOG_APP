@@ -34,8 +34,8 @@ import { logoutUser } from "../../redux/Actions/authAction";
 import { BlogPostModal } from "./BlogPostModal/BlogPostModal";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-
 import Drawer from "./Drawer/Drawer";
+
 export default function Home() {
    const classes = useStyles();
    const [anchorEl, setAnchorEl] = React.useState(null);
