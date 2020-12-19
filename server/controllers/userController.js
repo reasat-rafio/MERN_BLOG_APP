@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import Blog from "../models/blogModel.js";
 import cloudinary from "../utils/cloudinary.js";
 
-// @DESC    register a new user
+// @DESC     register a new user
 // @METHOD  POST
 // @ROUTE   /register
 export const register_post = async (req, res) => {

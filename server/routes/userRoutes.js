@@ -10,6 +10,9 @@ import {
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+   res.send("BlogApp");
+});
 router.post("/register", register_post);
 router.post("/login", login_post);
 router.post("/logout", logout_post);
