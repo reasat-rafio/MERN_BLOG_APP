@@ -88,16 +88,15 @@ export const BlogPostModal = ({
                </AppBar>
                <DialogContent>
                   <DialogContentText>
-                     Having a good day or a bad day?? It's ok life happenes. You
-                     can take a rest here and let it go by writing down whats on
-                     your mind.
+                     How is your day going ? Do you have anything on your mind?
+                     You can share it here 👾 .
                   </DialogContentText>
 
                   <TextField
                      autoFocus
                      margin="dense"
                      id="name"
-                     label="The start of something beautiful"
+                     label="Title Of Your Post"
                      type="text"
                      multiline
                      fullWidth
@@ -112,7 +111,7 @@ export const BlogPostModal = ({
                   <TextField
                      id="filled-multiline-static"
                      margin="dense"
-                     label="The body of something even better"
+                     label="Body Of Your Post"
                      multiline
                      rows={6}
                      variant="filled"

@@ -1,1 +1,1 @@
-A CRUD APP WITH AUTH
+A Simple Crud App

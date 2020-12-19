@@ -132,16 +132,14 @@ export const MyProfileModal = () => {
                </AppBar>
                <DialogContent>
                   <DialogContentText>
-                     Having a good day or a bad day?? It's ok life happenes. You
-                     can take a rest here and let it go by writing down whats on
-                     your mind.
+                     Humm seems like you want to edit 🤔
                   </DialogContentText>
 
                   <TextField
                      autoFocus
                      margin="dense"
                      id="name"
-                     label="The start of something beautiful"
+                     label="Edit title"
                      type="text"
                      multiline
                      fullWidth
@@ -157,7 +155,7 @@ export const MyProfileModal = () => {
                   <TextField
                      id="filled-multiline-static"
                      margin="dense"
-                     label="The body of something even better"
+                     label="Edit Body"
                      multiline
                      rows={6}
                      variant="filled"

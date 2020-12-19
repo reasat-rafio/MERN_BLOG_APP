@@ -5,7 +5,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,19 +14,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signupSchema } from "../../utils/authSchema";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../redux/Actions/authAction";
-
-function Copyright() {
-   return (
-      <Typography variant="body2" color="textSecondary" align="center">
-         {"Copyright © "}
-         <Link color="inherit" href="#">
-            Blogitica
-         </Link>{" "}
-         {new Date().getFullYear()}
-         {"."}
-      </Typography>
-   );
-}
 
 // MUI makeStyles
 const useStyles = makeStyles((theme) => ({
@@ -76,14 +62,14 @@ export default function SignUp() {
    };
 
    return (
-      <Container component="main" maxWidth="xs">
+      <Container style={{ height: "92vh" }} component="main" maxWidth="xs">
          <CssBaseline />
          <div className={classes.paper}>
             <Avatar className={classes.avatar}>
                <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-               Register
+               Sign Up
             </Typography>
             <form
                className={classes.form}
@@ -122,12 +108,6 @@ export default function SignUp() {
                         inputRef={register}
                      />
                   </Grid>
-
-                  {/* {errors.lastName && (
-                     <Typography variant="body2" color="secondary">
-                        {errors.lastName.message}
-                     </Typography>
-                  )} */}
 
                   <Grid item xs={12}>
                      <TextField
@@ -183,9 +163,6 @@ export default function SignUp() {
                </Grid>
             </form>
          </div>
-         <Box mt={5}>
-            <Copyright />
-         </Box>
       </Container>
    );
 }

@@ -115,7 +115,7 @@ export default function Home() {
          >
             <Grid item xs={12} lg={8}>
                <Typography className={classes.text} variant="h5" gutterBottom>
-                  Daily Blog 📝
+                  📝
                </Typography>
                {blogs && blogs.length ? (
                   <Paper square className={classes.paper}>
@@ -218,7 +218,7 @@ export default function Home() {
                      </List>
                   </Paper>
                ) : (
-                  <Loading />
+                  <Typography variant="h3">No Post Found 🔍</Typography>
                )}
 
                <AppBar

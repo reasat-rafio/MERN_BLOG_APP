@@ -32,11 +32,11 @@ export default function AlertDialog({ userId, _id, open, setOpen }) {
             aria-describedby="alert-dialog-description"
          >
             <DialogTitle id="alert-dialog-title">
-               {"Are you sure you want to delete the blog?"}
+               {"Are you sure you want to delete the Post?"}
             </DialogTitle>
             <DialogContent>
                <DialogContentText id="alert-dialog-description">
-                  If you click yes this blog will be deleted permanently and
+                  If you click yes this Post will be delete permanently and
                   there is no way to get it back again.
                </DialogContentText>
             </DialogContent>

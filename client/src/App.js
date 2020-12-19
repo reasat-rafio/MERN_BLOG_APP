@@ -12,6 +12,7 @@ import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 import MyProfile from "./components/My_profile/MyProfile";
 import { MyProfileModal } from "./components/My_profile/MyProfileModal/MyProfileModal";
+import CommunityChat from "./components/CommunityChat/CommunityChat";
 
 // import BlogPostModal from "./components/BlogPostModal.js/BlogPostModal";
 
@@ -41,6 +42,9 @@ function App() {
                      <PrivateRouter path="/my-profile/blogs">
                         <MyProfile />
                      </PrivateRouter>
+                     {/* <PrivateRouter path="/Community-chat">
+                        <CommunityChat />
+                     </PrivateRouter> */}
                      {/* <PrivateRouter path="/my-profile/blogs/edit">
                         < />
                      </PrivateRouter> */}

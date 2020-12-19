@@ -17,7 +17,6 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../../redux/Actions/authAction";
-import EmojiNatureIcon from "@material-ui/icons/EmojiNature";
 import AccessibilityNewIcon from "@material-ui/icons/AccessibilityNew";
 
 const useStyles = makeStyles({
@@ -55,9 +54,9 @@ export default function TemporaryDrawer() {
          onClick: () => (window.location.pathname = "/my-profile/blogs"),
       },
       {
-         text: "DailY dose of internet",
+         text: "Community Chat",
          icon: <AccessibilityNewIcon />,
-         onClick: () => (window.location.pathname = "/home"),
+         onClick: () => alert("Still in development 🔨"),
       },
       {},
    ];

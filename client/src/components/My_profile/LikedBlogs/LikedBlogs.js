@@ -42,7 +42,7 @@ const LikedBlogs = ({ id }) => {
                   You haven't liked any post yet!
                </Typography>
             )}
-            {likedBlogs && likedBlogs.length && (
+            {likedBlogs && likedBlogs != null && (
                <Paper>
                   <List className={classes.list}>
                      {likedBlogs.map(
